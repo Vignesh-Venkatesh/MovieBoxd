@@ -5,11 +5,13 @@ import { MantineProvider } from "@mantine/core";
 import Landing from "./Landing";
 import Footer from "./components/Footer";
 import LoginSignup from "./components/LoginSignup";
+import Profile from "./Profile";
 
 function App() {
   return (
     <MantineProvider>
-      <Landing></Landing>
+      <Profile></Profile>
+      {/* <Landing></Landing> */}
       {/* <LoginSignup></LoginSignup> */}
       <Footer></Footer>
     </MantineProvider>

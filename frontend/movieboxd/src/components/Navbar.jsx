@@ -36,7 +36,7 @@ export default function Navbar() {
 
             <Menu.Dropdown
               style={{
-                backgroundColor: "#27272a", // Dark background for dropdown
+                backgroundColor: "#27272a",
                 border: "none",
               }}
             >
@@ -44,8 +44,8 @@ export default function Navbar() {
 
               <Menu.Item
                 style={{
-                  color: "#e2e8f0", // Text color
-                  backgroundColor: "#27272a", // Default background color
+                  color: "#e2e8f0",
+                  backgroundColor: "#27272a",
                 }}
                 leftSection={<FaUser />}
               >
@@ -54,8 +54,8 @@ export default function Navbar() {
 
               <Menu.Item
                 style={{
-                  color: "#e2e8f0", // Text color
-                  backgroundColor: "#27272a", // Default background color
+                  color: "#e2e8f0",
+                  backgroundColor: "#27272a",
                 }}
                 leftSection={<FaEye />}
               >
@@ -63,8 +63,8 @@ export default function Navbar() {
               </Menu.Item>
               <Menu.Item
                 style={{
-                  color: "#e2e8f0", // Text color
-                  backgroundColor: "#27272a", // Default background color
+                  color: "#e2e8f0",
+                  backgroundColor: "#27272a",
                 }}
                 leftSection={<FaPen />}
               >
@@ -72,14 +72,13 @@ export default function Navbar() {
               </Menu.Item>
               <Menu.Item
                 style={{
-                  color: "#e2e8f0", // Text color
-                  backgroundColor: "#27272a", // Default background color
+                  color: "#e2e8f0",
+                  backgroundColor: "#27272a",
                 }}
                 leftSection={<LuLogOut />}
               >
                 Logout
               </Menu.Item>
-              {/* <Menu.Item>Collections</Menu.Item> */}
               <Menu.Divider />
 
               <Menu.Label>Danger zone</Menu.Label>
