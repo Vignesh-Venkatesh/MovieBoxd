@@ -10,6 +10,7 @@ function App() {
   return (
     <MantineProvider>
       <Landing></Landing>
+      {/* <LoginSignup></LoginSignup> */}
       <Footer></Footer>
     </MantineProvider>
   );

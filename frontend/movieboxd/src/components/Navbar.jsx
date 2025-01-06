@@ -1,4 +1,6 @@
-import { Avatar } from "@mantine/core";
+import { Avatar, Menu } from "@mantine/core";
+import { FaUser, FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { LuLogOut } from "react-icons/lu";
 
 const name = "John Doe";
 
@@ -22,12 +24,73 @@ export default function Navbar() {
           <h1 className="uppercase font-bold text-slate-400 hover:cursor-pointer hover:text-orange-400">
             Favorites
           </h1>
-          <Avatar
-            key={name}
-            name={name}
-            color="initials"
-            className="hover:cursor-pointer"
-          ></Avatar>
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <Avatar
+                key={name}
+                name={name}
+                color="initials"
+                className="hover:cursor-pointer"
+              ></Avatar>
+            </Menu.Target>
+
+            <Menu.Dropdown
+              style={{
+                backgroundColor: "#27272a", // Dark background for dropdown
+                border: "none",
+              }}
+            >
+              <Menu.Label>Options</Menu.Label>
+
+              <Menu.Item
+                style={{
+                  color: "#e2e8f0", // Text color
+                  backgroundColor: "#27272a", // Default background color
+                }}
+                leftSection={<FaUser />}
+              >
+                Profile
+              </Menu.Item>
+
+              <Menu.Item
+                style={{
+                  color: "#e2e8f0", // Text color
+                  backgroundColor: "#27272a", // Default background color
+                }}
+                leftSection={<FaEye />}
+              >
+                Activity
+              </Menu.Item>
+              <Menu.Item
+                style={{
+                  color: "#e2e8f0", // Text color
+                  backgroundColor: "#27272a", // Default background color
+                }}
+                leftSection={<FaPen />}
+              >
+                My Reviews
+              </Menu.Item>
+              <Menu.Item
+                style={{
+                  color: "#e2e8f0", // Text color
+                  backgroundColor: "#27272a", // Default background color
+                }}
+                leftSection={<LuLogOut />}
+              >
+                Logout
+              </Menu.Item>
+              {/* <Menu.Item>Collections</Menu.Item> */}
+              <Menu.Divider />
+
+              <Menu.Label>Danger zone</Menu.Label>
+              <Menu.Item
+                color="#ef4444"
+                leftSection={<FaTrash className="text-red-500" />}
+              >
+                Delete my account
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </div>
       </div>
     </div>
