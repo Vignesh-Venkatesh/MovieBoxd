@@ -3,8 +3,18 @@ const TMDBRoute = require("./v1/tmdb");
 
 // Setting express
 const express = require("express");
+const cors = require("cors"); // Import cors
 const app = express(); // Initializing express app
 app.use(express.json()); // Express JSON method
+
+// CORS middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow requests from frontend origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type"], // Allow specific headers
+  })
+);
 
 // Loading environment variables
 const dotenv = require("dotenv");
