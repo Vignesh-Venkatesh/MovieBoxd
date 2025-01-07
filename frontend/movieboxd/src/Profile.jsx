@@ -20,7 +20,7 @@ export default function Profile() {
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false); // Set loading to false even if there's an error
+        setLoading(true); // set loading to true if there's an error
       });
   }, []);
 
@@ -70,7 +70,12 @@ export default function Profile() {
               {/* Movie Posters and Data */}
               <div className="flex gap-2 flex-wrap mt-4 justify-start">
                 {loading ? (
-                  <Loader color="#fb923c" type="bars" size="sm" />
+                  <Loader
+                    color="#fb923c"
+                    type="bars"
+                    size="sm"
+                    className="m-auto"
+                  />
                 ) : (
                   // (also showing only 14 results)
                   movies.slice(0, 2).map((movie) => (
@@ -109,7 +114,12 @@ export default function Profile() {
               {/* Movie Posters and Data */}
               <div className="flex gap-2 flex-wrap mt-4 justify-start">
                 {loading ? (
-                  <Loader color="#fb923c" type="bars" size="sm" />
+                  <Loader
+                    color="#fb923c"
+                    type="bars"
+                    size="sm"
+                    className="m-auto"
+                  />
                 ) : (
                   // (also showing only 14 results)
                   movies.slice(0, 5).map((movie) => (
@@ -153,7 +163,12 @@ export default function Profile() {
             {/* Movie Posters and Data */}
             <div className="flex gap-2 flex-wrap mt-4 justify-start">
               {loading ? (
-                <Loader color="#fb923c" type="bars" size="sm" />
+                <Loader
+                  color="#fb923c"
+                  type="bars"
+                  size="sm"
+                  className="m-auto"
+                />
               ) : (
                 // (also showing only 14 results)
                 movies.slice(0, 14).map((movie) => (

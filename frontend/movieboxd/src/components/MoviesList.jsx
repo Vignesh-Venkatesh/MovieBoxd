@@ -17,7 +17,7 @@ export default function MoviesList({ apiRoute, title }) {
       })
       .catch((error) => {
         console.log(error);
-        setLoading(false); // Set loading to false even if there's an error
+        setLoading(true); // set loading to true if there's an error
       });
   }, []);
 

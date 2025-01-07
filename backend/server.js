@@ -1,5 +1,6 @@
 // Routes Imports
-const TMDBRoute = require("./v1/tmdb");
+const MoviesRoute = require("./v1/movies");
+const MovieRoute = require("./v1/movie");
 
 // Setting express
 const express = require("express");
@@ -24,7 +25,10 @@ const PORT = process.env.PORT; // Getting the PORT
 // api version - v1
 
 // Movies Route
-app.use("/api/v1/movies", TMDBRoute);
+app.use("/api/v1/movies", MoviesRoute);
+
+// Movie Route
+app.use("/api/v1/movie", MovieRoute);
 
 app.get("/api/v1", (req, res) => {
   res.json({ message: "Welcome to MovieBoxd v1.0", status: 200 });
