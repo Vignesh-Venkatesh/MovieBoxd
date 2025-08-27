@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 3000
 
 # running migrations first, then starting the Hono server
-CMD ["sh", "-c", "bun run migrate.ts && bun run start"]
+# CMD ["sh", "-c", "bun run migrate.ts && bun run start"]
+CMD ["sh", "-c", "bun run start"]

@@ -5,6 +5,7 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.56.0",
     "axios": "^1.11.0",
     "hono": "^4.9.4",
     "pg": "^8.16.3"
