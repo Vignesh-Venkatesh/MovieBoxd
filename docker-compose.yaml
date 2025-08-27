@@ -1,0 +1,20 @@
+version: "3.9" # docker compose file format
+
+services:
+  # backend service (Hono + Bun)
+  backend:
+    build: ./server # path to Dockerfile for backend
+    restart: always
+    environment:
+      DATABASE_URL: ${DATABASE_URL} # Coolify-managed Postgres URL
+    ports:
+      - "3000:3000" # exposing backend port
+
+  # frontend service (Vite + React served by nginx)
+  frontend:
+    build: ./client
+    restart: always
+    depends_on:
+      - backend # ensuring backend is available
+    ports:
+      - "8081:80" # mapping container port 80 to host port 8081 (using 8081, coz portfolio is taking 8080)
