@@ -9,6 +9,7 @@ services:
       TMDB_API_KEY: ${TMDB_API_KEY} # TMDB_API_KEY
       SUPABASE_URL: ${SUPABASE_URL} # Supabase URL
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY} # Supabase Service Role Key
+      ENVIRONMENT: ${ENVIRONMENT} # dev or prod environment
     ports:
       - "3000:3000" # exposing backend port
 
@@ -18,5 +19,7 @@ services:
     restart: always
     depends_on:
       - backend # ensuring backend is available
+    environment:
+      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
     ports:
       - "8081:80" # mapping container port 80 to host port 8081 (using 8081, coz portfolio is taking 8080)

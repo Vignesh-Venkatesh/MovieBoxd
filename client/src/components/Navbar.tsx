@@ -4,7 +4,7 @@ export default function Navbar() {
   return (
     <div className="my-4 flex justify-between items-end">
       {/* MovieBoxd Logo */}
-      <div>
+      <div className="w-1/4">
         <Link to={"/"}>
           <h1 className="font-black tracking-wide text-3xl text-green-500">
             MovieBoxd
@@ -12,9 +12,9 @@ export default function Navbar() {
         </Link>
       </div>
 
-      <div className="flex gap-5">
+      <div className="flex gap-5 w-full justify-end items-end">
         {/* Search */}
-        <label className="input">
+        <label className="input input-sm">
           {/* Search icon */}
           <svg
             className="h-[1em] opacity-50"
@@ -37,9 +37,9 @@ export default function Navbar() {
 
         {/* Login/SignUp Buttons */}
         <div className="flex">
-          <button className="btn btn-base-300">Log In</button>
+          <button className="btn btn-sm btn-base-300">Log In</button>
           <div className="divider divider-horizontal"></div>
-          <button className="btn btn-base-300">Sign Up</button>
+          <button className="btn btn-sm btn-base-300">Sign Up</button>
         </div>
       </div>
     </div>

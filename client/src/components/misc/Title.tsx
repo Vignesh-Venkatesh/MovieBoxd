@@ -9,9 +9,9 @@ export default function Title({ title, link }: TitleProps) {
   return (
     <div>
       <div className="flex justify-between items-end">
-        <h1 className="uppercase opacity-50">{title}</h1>
+        <h1 className="uppercase opacity-50 text-sm">{title}</h1>
         <Link to={`${link}`}>
-          <h1 className="text-sm opacity-50 hover:font-bold hover:opacity-80 transition-opacity duration-200 ">
+          <h1 className="text-xs opacity-50 hover:font-bold hover:opacity-80 transition-opacity duration-200 ">
             more
           </h1>
         </Link>

@@ -4,8 +4,8 @@ export default function Footer() {
   return (
     <footer className="h-50 bg-neutral/80 font-google">
       <div className="w-[950px] mx-auto h-full flex justify-around items-center">
-        <div className="text-start space-y-2 text-sm">
-          <h1 className="opacity-70 hover:opacity-100 transition-opacity duration-300 text-lg">
+        <div className="text-start space-y-2 text-xs">
+          <h1 className="opacity-70 hover:opacity-100 transition-opacity duration-300 text-sm cursor-default">
             Made with 💚 by Vignesh.
           </h1>
           <h1 className="opacity-70 hover:opacity-100 transition-opacity duration-300">
@@ -26,6 +26,16 @@ export default function Footer() {
               className="hover:underline underline-offset-4 hover:font-bold transition-colors duration-200 cursor-pointer"
             >
               TMDb
+            </a>
+          </h1>
+          <h1 className="opacity-70 hover:opacity-100 transition-opacity duration-300">
+            Project inspired by{" "}
+            <a
+              href="https://letterboxd.com/"
+              target="_blank"
+              className="hover:underline underline-offset-4 hover:font-bold transition-colors duration-200 cursor-pointer"
+            >
+              LetterBoxd
             </a>
           </h1>
         </div>
