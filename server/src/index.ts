@@ -1,8 +1,27 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
+
 import auth from "./auth/auth";
 import { moviesRoutes } from "./routes/movies";
 
 const app = new Hono();
+
+// CORS
+app.use(
+  "/*",
+  cors({
+    origin: (origin) => {
+      if (Bun.env.ENVIRONMENT === "production") {
+        // allowing only front end in production
+        return "https://movieboxd.vigneshvenkatesh.com";
+      }
+      // allow all origins in dev (localhost)
+      return origin;
+    },
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // mounting /auth routes
 app.route("/auth", auth);

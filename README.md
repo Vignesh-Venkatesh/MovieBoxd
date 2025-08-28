@@ -5,7 +5,7 @@
 #### Movies
 
 - `GET /api/movies/:id`
-  Fetch detailed information about a single movie (title, synopsis, release date, genres, poster, etc.).
+  Fetch detailed information about a single movie (title, synopsis, release date, poster, etc.).
 
   ```json
   Example Response:
@@ -23,31 +23,31 @@
   }
   ```
 
-- `GET /api/movies/:id/credits`
+- `GET /api/movies/:id/credits` ✔️
   Get cast and crew information for a specific movie.
 
-- `GET /api/movies/now-playing`
+- `GET /api/movies/now-playing` ✔️
   Retrieve a list of movies currently in theaters.
 
-- `GET /api/movies/popular`
+- `GET /api/movies/popular` ✔️
   Get a list of trending/popular movies based on activity or API data.
 
-- `GET /api/movies/upcoming`
+- `GET /api/movies/upcoming` ✔️
   Fetch a list of movies that are scheduled for future release.
 
-- `GET /api/movies/search?movie=`
+- `GET /api/movies/search?movie=` ✔️
   Search for movies by title (query parameter).
 
 - `GET /api/movies/:movieId/reviews`
   Fetch all reviews written for a given movie.
 
-- `GET /api/movies/:id/similar`
+- `GET /api/movies/:id/similar` ✔️
   Retrieve movies that are similar to the given movie (based on genre, cast, etc.).
 
-- `GET /api/movies/:id/recommendations`
+- `GET /api/movies/:id/recommendations` ✔️
   Get personalized or algorithmic recommendations related to a specific movie.
 
-- `GET /api/movies/random`
+- `GET /api/movies/random` ✔️
   Returns a completely random movie. Can use for “Surprise Me” feature.
 
 #### Users

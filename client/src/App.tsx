@@ -1,7 +1,14 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Footer from "./components/Footer";
+
 export default function App() {
   return (
-    <div>
-      <h1>MovieBoxd</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
