@@ -15,11 +15,12 @@ services:
 
   # frontend service (Vite + React served by nginx)
   frontend:
-    build: ./client
+    build:
+      context: ./client
+      args:
+        VITE_BACKEND_URL: ${VITE_BACKEND_URL} # pass build arg here
     restart: always
     depends_on:
-      - backend # ensuring backend is available
-    environment:
-      VITE_BACKEND_URL: ${VITE_BACKEND_URL}
+      - backend
     ports:
       - "8081:80" # mapping container port 80 to host port 8081 (using 8081, coz portfolio is taking 8080)

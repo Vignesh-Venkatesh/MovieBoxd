@@ -4,6 +4,10 @@ FROM oven/bun:1 AS build
 # setting the working directory
 WORKDIR /app
 
+# accept build-time argument for Vite
+ARG VITE_BACKEND_URL
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
+
 # copying dependency files and installing them
 COPY package.json bun.lock ./
 RUN bun install

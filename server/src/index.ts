@@ -9,18 +9,10 @@ const app = new Hono();
 
 // CORS
 app.use(
-  "/*",
+  "*",
   cors({
-    origin: (origin) => {
-      if (Bun.env.ENVIRONMENT === "production") {
-        // allowing only front end in production
-        return "https://movieboxd.vigneshvenkatesh.com";
-      }
-      // allow all origins in dev (localhost)
-      return origin;
-    },
+    origin: "*",
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
   })
 );
 
