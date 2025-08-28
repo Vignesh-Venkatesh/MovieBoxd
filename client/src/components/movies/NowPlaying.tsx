@@ -20,13 +20,15 @@ export default function NowPlaying() {
     const fetchNowPlayingMovies = async () => {
       try {
         setLoading(true);
+
         const res = await axios.get(`${URL}movies/now-playing?page=1`);
-        console.log(res.data.data.results);
-        setMovies(res.data.data.results.slice(0, 12) || []);
+        const json = res.data;
+        setMovies(json.data.results.slice(0, 12) || []);
+
+        setLoading(false);
       } catch (err: any) {
         showToast("error", err.message || "Failed to fetch movies");
-      } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
 

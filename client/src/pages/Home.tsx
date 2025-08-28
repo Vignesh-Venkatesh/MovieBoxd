@@ -3,6 +3,7 @@ import PopularMovies from "../components/movies/PopularMovies";
 import WideAd from "../components/advertisement/WideAd";
 import NowPlaying from "../components/movies/NowPlaying";
 import SquareSmallAd from "../components/advertisement/SquareSmallAd";
+import DevPicks from "../components/misc/DevPicks";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         {/* right side - Ad, dev picks, recently joined members */}
         <div className="w-[230px]">
           <SquareSmallAd />
+          <DevPicks />
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ export type Movie = {
   overview?: string;
   poster_path?: string;
   backdrop_path?: string;
-  release_date: string;
+  release_date?: string;
   runtime?: number;
   genres?: string[];
 
@@ -15,4 +15,12 @@ export type Movie = {
     favorited: boolean;
     reviewId?: number; // if user has reviewed it
   };
+};
+
+export type Cast = {
+  id: number;
+  name?: string;
+  gender?: number;
+  character?: string;
+  profile_path?: string;
 };

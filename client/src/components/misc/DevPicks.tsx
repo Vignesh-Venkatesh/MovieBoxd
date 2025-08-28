@@ -1,7 +1,7 @@
-import Title from "../misc/Title";
+import Title from "./Title";
 import AppToaster from "../misc/Toaster";
-import LargePoster from "../poster/LargePoster";
 import { showToast } from "../../lib/showToast";
+import SmallPoster from "../poster/SmallPoster";
 import LoadingList from "../loading/LoadingList";
 
 import type { Movie } from "../../lib/types";
@@ -12,51 +12,53 @@ import axios from "axios";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
-export default function PopularMovies() {
+export default function DevPicks() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPopularMovies = async () => {
+    const fetchDevPicks = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`${URL}movies/popular?page=1`);
-        const json = res.data;
-        setMovies(json.data.results.slice(0, 4) || []);
+        const res = await axios.get(`${URL}dev-picks`);
+
+        // extracting 'movies' field from each row
+        const picks = res.data.data.map((item: any) => item.movies);
+        setMovies(picks);
         setLoading(false);
       } catch (err: any) {
-        showToast("error", err.message || "Failed to fetch movies");
+        showToast("error", err.message || "Failed to fetch dev picks");
         setLoading(true);
       }
     };
 
-    fetchPopularMovies();
+    fetchDevPicks();
   }, []);
 
   return (
-    <div className="">
+    <div>
       {/* toaster */}
       <AppToaster />
 
       {/* title */}
-      <Title title="Popular Movies" link="/movies/popular" />
+      <Title title="dev picks" />
 
       {/* loading */}
       {loading && (
         <LoadingList
-          quantity={4}
-          width="w-[230px]"
-          height="h-[345px]"
-          cols={4}
-          rows={1}
+          quantity={6}
+          width="w-[70px]"
+          height="h-[105px]"
+          cols={3}
+          rows={2}
         />
       )}
 
-      {/* popular movies posters */}
-      <div className="grid grid-cols-4 gap-4 justify-items-end my-2">
+      {/* dev-picks movies posters */}
+      <div className="grid grid-cols-3 justify-items-end my-2">
         {!loading &&
           movies.map((movie, idx) => (
-            <LargePoster
+            <SmallPoster
               key={idx}
               title={movie.title}
               image_url={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

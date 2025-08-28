@@ -9,6 +9,17 @@
   --font-cormorant: "Cormorant Garamond", serif;
   --font-roboto: "Roboto", Helvetica, Arial, sans-serif;
   --font-google: "Google Sans Code", Tahoma, Verdana, sans-serif;
+
+  --animate-fade-in: fade-in 1s ease-in-out forwards;
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
 :root {

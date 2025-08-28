@@ -227,7 +227,7 @@ export async function insertMovieFromTMDB(tmdb_id: string) {
           overview: movie.overview || null,
           poster_path: movie.poster_path || null,
           backdrop_path: movie.backdrop_path || null,
-          release_date: movie.release_date,
+          release_date: movie.release_date || null,
           runtime: movie.runtime?.toString() || null,
         },
       ])
@@ -270,6 +270,55 @@ export async function getRandomMovie() {
       status: 200,
       data: data?.[0],
     };
+  } catch (err: any) {
+    console.error("🛑 Error:", err.message || err);
+    return { msg: "Unexpected server error", status: 500, data: null };
+  }
+}
+
+// getting particular person info
+export async function getPersonInfo(person_id: string) {
+  try {
+    // fetching person info from TMDb
+    const URL: string = `${BASE_URL}/person/${person_id}`;
+
+    const { data } = await axios.get(URL, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${TMDB_API_KEY}`,
+      },
+      params: {
+        language: "en-US",
+      },
+    });
+
+    return { msg: "Person info fetched", status: 200, data: data };
+  } catch (err: any) {
+    console.error("🛑 Error:", err.message || err);
+    return { msg: "Unexpected server error", status: 500, data: null };
+  }
+}
+
+// getting particular person credits
+export async function getPersonCredits(person_id: string) {
+  try {
+    // fetching popular movies from TMDb
+    const URL: string = `${BASE_URL}/person/${person_id}/movie_credits`;
+
+    const { data } = await axios.get(URL, {
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${TMDB_API_KEY}`,
+      },
+      params: {
+        language: "en-US",
+      },
+    });
+
+    if (data["cast"]) {
+      return { msg: "Person credits fetched", status: 200, data: data["cast"] };
+    }
+    return { msg: "Person credits fetched", status: 200, data: [] };
   } catch (err: any) {
     console.error("🛑 Error:", err.message || err);
     return { msg: "Unexpected server error", status: 500, data: null };

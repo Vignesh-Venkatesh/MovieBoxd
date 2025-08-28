@@ -6,7 +6,7 @@ export default function Navbar() {
       {/* MovieBoxd Logo */}
       <div className="w-1/4">
         <Link to={"/"}>
-          <h1 className="font-black tracking-wide text-3xl text-green-500">
+          <h1 className="font-black tracking-wide text-3xl text-shadow text-green-100">
             MovieBoxd
           </h1>
         </Link>
@@ -37,9 +37,13 @@ export default function Navbar() {
 
         {/* Login/SignUp Buttons */}
         <div className="flex">
-          <button className="btn btn-sm btn-base-300">Log In</button>
+          <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
+            Log In
+          </button>
           <div className="divider divider-horizontal"></div>
-          <button className="btn btn-sm btn-base-300">Sign Up</button>
+          <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
+            Sign Up
+          </button>
         </div>
       </div>
     </div>

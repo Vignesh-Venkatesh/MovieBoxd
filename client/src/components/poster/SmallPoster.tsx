@@ -14,22 +14,32 @@ export default function SmallPoster({
   link,
   release_date,
 }: PosterProps) {
-  return (
-    <Link to={`${link}`}>
-      <div className="tooltip tooltip-bottom">
-        <h1 className="tooltip-content font-semibold text-xs bg-base-300 p-2 shadow-xl">
-          {title} ({release_date?.slice(0, 4)})
-        </h1>
-        {image_url ? (
-          <div className="rounded bg-base-200 w-[70px] h-[105px] flex justify-center items-center border-2 border-transparent hover:border-green-500 transition-colors duration-300 cursor-pointer shadow-md">
-            <img src={`${image_url}`} alt={`${title}`} className="rounded-md" />
-          </div>
-        ) : (
-          <div className="rounded bg-base-200 w-[70px] h-[105px] flex justify-center items-center border-2 border-transparent hover:border-accent transition-colors duration-300 cursor-pointer">
-            <FaUnlink className="text-neutral-content opacity-50 text-5xl shadow-md" />
-          </div>
-        )}
-      </div>
-    </Link>
+  const PosterContent = (
+    <div className={link ? "tooltip tooltip-bottom" : ""}>
+      <h1
+        className={
+          link
+            ? "tooltip-content font-semibold text-xs bg-base-300 p-2 shadow-xl"
+            : "hidden"
+        }
+      >
+        {title} {release_date && `(${release_date.slice(0, 4)})`}
+      </h1>
+      {image_url ? (
+        <div className="rounded bg-base-200 w-[70px] h-[105px] flex justify-center items-center border-2 border-transparent hover:border-green-500 transition-colors duration-300 shadow-md">
+          <img
+            src={image_url}
+            alt={title}
+            className="rounded-md shadow-lg text-xs text-center line-clamp-2"
+          />
+        </div>
+      ) : (
+        <div className="rounded bg-base-200 w-[70px] h-[105px] flex justify-center items-center border-2 border-transparent hover:border-accent transition-colors duration-300 shadow-md">
+          <FaUnlink className="text-neutral-content opacity-50 text-5xl shadow-md" />
+        </div>
+      )}
+    </div>
   );
+
+  return link ? <Link to={link}>{PosterContent}</Link> : PosterContent;
 }

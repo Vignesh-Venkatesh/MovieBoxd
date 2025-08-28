@@ -8,13 +8,17 @@ type TitleProps = {
 export default function Title({ title, link }: TitleProps) {
   return (
     <div>
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-end font-google">
         <h1 className="uppercase opacity-50 text-sm">{title}</h1>
-        <Link to={`${link}`}>
-          <h1 className="text-xs opacity-50 hover:font-bold hover:opacity-80 transition-opacity duration-200 ">
-            more
-          </h1>
-        </Link>
+        {link ? (
+          <Link to={`${link}`}>
+            <h1 className="text-xs opacity-50 hover:font-bold hover:opacity-80 transition-opacity duration-200 ">
+              more
+            </h1>
+          </Link>
+        ) : (
+          <></>
+        )}
       </div>
       <hr className="my-1 opacity-30" />
     </div>
