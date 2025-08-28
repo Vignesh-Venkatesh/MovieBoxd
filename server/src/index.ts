@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 
 import auth from "./auth/auth";
 import { moviesRoutes } from "./routes/movies";
+import { devPicksRoutes } from "./routes/devPicks";
 
 const app = new Hono();
 
@@ -28,6 +29,9 @@ app.route("/auth", auth);
 
 // mounting /movies routes
 app.route("/movies", moviesRoutes);
+
+// mounting /dev-picks routes
+app.route("/dev-picks", devPicksRoutes);
 
 app.get("/", (c) => {
   return c.json({ msg: "Welcome to MovieBoxd API!", status: 200 }, 200);

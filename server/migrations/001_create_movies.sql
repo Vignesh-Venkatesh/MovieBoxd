@@ -18,6 +18,12 @@ CREATE TABLE IF NOT EXISTS profiles (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- creating dev_picks table with foreign key reference
+CREATE TABLE IF NOT EXISTS dev_picks (
+  tmdb_id BIGINT PRIMARY KEY,
+  CONSTRAINT fk_dev_picks_movies FOREIGN KEY (tmdb_id) REFERENCES movies (id) ON DELETE CASCADE
+);
+
 -- returns a random movie
 CREATE OR REPLACE FUNCTION public.get_random_movie()
 RETURNS TABLE (
