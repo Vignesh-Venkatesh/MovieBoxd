@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
 
+import { useAuth } from "../stores/useAuth";
+import Avatar from "./misc/Avatar";
+
 export default function Navbar() {
+  const { user } = useAuth();
+
+  const { clearAuth } = useAuth();
+
+  const handleLogout = () => {
+    clearAuth();
+  };
+
   return (
     <div className="my-4 flex justify-between items-end">
       {/* MovieBoxd Logo */}
@@ -35,19 +46,55 @@ export default function Navbar() {
           <input type="search" required placeholder="Search" />
         </label>
 
-        {/* Login/SignUp Buttons */}
-        <div className="flex">
-          <Link to="/login">
-            <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
-              Log In
-            </button>
-          </Link>
-          <div className="divider divider-horizontal"></div>
-          <Link to="/signup">
-            <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
-              Sign Up
-            </button>
-          </Link>
+        {/* Auth Section */}
+        <div className="flex items-center">
+          {user ? (
+            // Avatar - if user logged in
+            <div className="dropdown dropdown-hover dropdown-end">
+              <div tabIndex={0} role="button" className="cursor-pointer">
+                <Avatar
+                  src={user.avatar_url}
+                  username={user.display_name || user.email}
+                  size="w-8 h-8"
+                />
+              </div>
+
+              {/* dropdown menu */}
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu text-xs font-semibold text-center bg-base-100 rounded-box z-1 w-20 p-1 space-y-1 shadow-sm rounded-sm"
+              >
+                <li>
+                  <Link to={`/profile/${user.display_name}`}>
+                    <h1>Profile</h1>
+                  </Link>
+                </li>
+                <li>
+                  <h1
+                    className="text-center bg-red-500 text-black hover:bg-red-600"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </h1>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            // Login/SignUp Buttons - if user not logged in
+            <>
+              <Link to="/login">
+                <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
+                  Log In
+                </button>
+              </Link>
+              <div className="divider divider-horizontal"></div>
+              <Link to="/signup">
+                <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </div>

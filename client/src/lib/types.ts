@@ -32,3 +32,11 @@ export type Person = {
   gender?: number;
   profile_path?: string;
 };
+
+export type User = {
+  id: string;
+  display_name: string;
+  bio?: string;
+  created_at?: string;
+  avatar_url?: string;
+};

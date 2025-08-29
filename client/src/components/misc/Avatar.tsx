@@ -46,7 +46,7 @@ export default function Avatar({
           className="w-full h-full object-cover rounded-full"
         />
       ) : username ? (
-        <span className="text-2xl font-bold text-green-200">
+        <span className="text-xl font-bold text-green-200">
           {username.charAt(0).toUpperCase()}
         </span>
       ) : (

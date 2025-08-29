@@ -3,6 +3,10 @@ import Avatar from "../components/misc/Avatar";
 import AppToaster from "../components/misc/Toaster";
 import { showToast } from "../lib/showToast";
 
+import axios from "axios";
+
+const URL = import.meta.env.VITE_BACKEND_URL;
+
 export default function Signup() {
   document.title = "Sign Up | MovieBoxd";
 
@@ -13,11 +17,32 @@ export default function Signup() {
   const [avatarUrl, setAvatarUrl] = useState("");
   const [bio, setBio] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const api = axios.create({
+    baseURL: URL,
+    headers: { "Content-Type": "application/json" },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       showToast("error", "Passwords do not match");
       return;
+    }
+
+    try {
+      await api.post("/auth/signup", {
+        email,
+        password,
+        display_name: username,
+        avatar_url: avatarUrl,
+        bio,
+      });
+
+      showToast("success", "Account created! Please log in.");
+      window.location.href = "/login";
+    } catch (err: any) {
+      showToast("error", err.response?.data?.msg || "Signup failed");
     }
   };
 

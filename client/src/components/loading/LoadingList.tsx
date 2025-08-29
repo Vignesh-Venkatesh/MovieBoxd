@@ -16,9 +16,14 @@ export default function LoadingList({
   const total = quantity || cols * rows;
 
   return (
-    <div className={`my-2 grid gap-2 grid-cols-${cols} grid-rows-${rows}`}>
+    <div
+      className={`my-2 grid gap-2 grid-cols-${cols} grid-rows-${rows} grid-flow-col-dense`}
+    >
       {Array.from({ length: total }).map((_, idx) => (
-        <div key={idx} className={`skeleton ${width} ${height}`} />
+        <div
+          key={idx}
+          className={`rounded shadow-lg skeleton ${width} ${height}`}
+        />
       ))}
     </div>
   );

@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Movie from "./pages/Movie";
 import Person from "./pages/Person";
+import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 
 export default function App() {
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/movie/:id" element={<Movie />} />
         <Route path="/person/:id" element={<Person />} />
+        <Route path="/profile/:username" element={<Profile />} />
       </Routes>
       <Footer />
     </Router>

@@ -7,7 +7,7 @@ export async function getMovieById(tmdb_id: string) {
     const { data: existing, error } = await supabase
       .from("movies")
       .select("*")
-      .eq("id", tmdb_id)
+      .eq("id", Number(tmdb_id))
       .maybeSingle();
 
     if (error) {

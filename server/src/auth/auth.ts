@@ -86,15 +86,47 @@ auth.post("/login", async (c) => {
 // protected route
 auth.get("/me", async (c) => {
   const token = c.req.header("Authorization")?.replace("Bearer ", "");
-  if (!token) return c.json({ msg: "Unauthorized", status: 401 }, 401);
+  if (!token) {
+    return c.json({ msg: "Unauthorized", status: 401 }, 401);
+  }
 
-  const { data, error } = await supabase.auth.getUser(token);
+  // verifying supabase user with token
+  const { data: authData, error: authError } = await supabase.auth.getUser(
+    token
+  );
 
-  if (error || !data.user) {
+  if (authError || !authData.user) {
     return c.json({ msg: "Invalid token", status: 401 }, 401);
   }
 
-  return c.json({ user: data.user, status: 200 }, 200);
+  const user = authData.user;
+
+  // fetching matching profile row from profiles table
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("id, display_name, created_at, avatar_url, bio")
+    .eq("id", user.id) // profiles.id is same as auth.user.id
+    .maybeSingle();
+
+  if (profileError) {
+    return c.json(
+      { msg: "Profile fetch failed", error: profileError, status: 500 },
+      500
+    );
+  }
+
+  // merging info
+  return c.json(
+    {
+      status: 200,
+      user: {
+        id: user.id,
+        email: user.email,
+        ...profile, // attaching display_name, created_at, avatar_url, bio
+      },
+    },
+    200
+  );
 });
 
 export default auth;
