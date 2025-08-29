@@ -2,6 +2,7 @@ import type { Movie, Cast } from "../../lib/types";
 import LargePoster from "../poster/LargePoster";
 import CastList from "../cast/CastList";
 import SimilarMovies from "./SimilarMovies";
+import ActionButtons from "../action/ActionButtons";
 
 type MovieInfoProps = {
   movie: Movie;
@@ -14,7 +15,7 @@ export default function MovieInfo({ movie, cast }: MovieInfoProps) {
       {/* backdrop */}
       <div>
         {movie.backdrop_path ? (
-          <div className="opacity-90 absolute -top-20 left-1/2 -translate-x-1/2 -z-10 overflow-hidden w-[1200px] h-[600px] animate-fade-in">
+          <div className="opacity-90 absolute -top-10 left-1/2 -translate-x-1/2 -z-10 overflow-hidden w-[1200px] h-[600px] animate-fade-in">
             <img
               src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
               alt={movie.title}
@@ -66,7 +67,9 @@ export default function MovieInfo({ movie, cast }: MovieInfoProps) {
               </div>
 
               {/* actions */}
-              <div className=" w-[230px]"></div>
+              <div className=" w-[230px]">
+                <ActionButtons />
+              </div>
             </div>
           </div>
         </div>

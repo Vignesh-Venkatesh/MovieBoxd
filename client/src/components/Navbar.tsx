@@ -37,13 +37,17 @@ export default function Navbar() {
 
         {/* Login/SignUp Buttons */}
         <div className="flex">
-          <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
-            Log In
-          </button>
+          <Link to="/login">
+            <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
+              Log In
+            </button>
+          </Link>
           <div className="divider divider-horizontal"></div>
-          <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
-            Sign Up
-          </button>
+          <Link to="/signup">
+            <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
+              Sign Up
+            </button>
+          </Link>
         </div>
       </div>
     </div>

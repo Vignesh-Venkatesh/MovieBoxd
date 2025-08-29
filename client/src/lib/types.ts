@@ -24,3 +24,11 @@ export type Cast = {
   character?: string;
   profile_path?: string;
 };
+
+export type Person = {
+  id: number;
+  name: string;
+  biography?: string;
+  gender?: number;
+  profile_path?: string;
+};

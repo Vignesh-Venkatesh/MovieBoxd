@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { getPersonInfo, getPersonCredits } from "../lib/tmdb";
 
-export const peoplesRoutes = new Hono();
+export const personsRoutes = new Hono();
 
-// GET /people/:id/credits
-peoplesRoutes.get("/:id/credits", async (c) => {
+// GET /person/:id/credits
+personsRoutes.get("/:id/credits", async (c) => {
   try {
     const person_id = c.req.param("id"); // get person ID from URL
 
@@ -20,8 +20,8 @@ peoplesRoutes.get("/:id/credits", async (c) => {
   }
 });
 
-// GET /people/:id
-peoplesRoutes.get("/:id", async (c) => {
+// GET /person/:id
+personsRoutes.get("/:id", async (c) => {
   try {
     const person_id = c.req.param("id"); // get person ID from URL
 
