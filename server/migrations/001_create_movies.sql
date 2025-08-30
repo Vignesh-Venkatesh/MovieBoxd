@@ -44,3 +44,86 @@ AS $$
   ORDER BY random()
   LIMIT 1;
 $$;
+
+
+-- watchlist
+CREATE TABLE IF NOT EXISTS watchlist (
+    id BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, movie_id)
+);
+
+
+-- watched
+CREATE TABLE IF NOT EXISTS watched (
+    id BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, movie_id)
+);
+
+-- favorites
+CREATE TABLE IF NOT EXISTS favorites (
+    id BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(user_id, movie_id)
+);
+
+
+-- reviews
+CREATE TABLE IF NOT EXISTS reviews (
+    id BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id),
+    review TEXT NOT NULL,
+    rating INT CHECK (rating >= 0 AND rating <= 5),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- review likes
+CREATE TABLE IF NOT EXISTS review_likes (
+    id BIGSERIAL PRIMARY KEY,
+    review_id BIGINT NOT NULL REFERENCES reviews(id) ON DELETE CASCADE,
+    user_id UUID NOT NULL REFERENCES auth.users(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    UNIQUE(review_id, user_id) -- user can only like once
+);
+
+-- returning user stats (watched, favorites, watchlist, reviews)
+CREATE OR REPLACE FUNCTION public.get_user_stats(username text)
+RETURNS TABLE (
+  watched int,
+  favorites int,
+  watchlist int,
+  reviews int
+)
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
+  SELECT
+    (SELECT count(*)::int
+     FROM public.watched w
+     JOIN public.profiles p ON w.user_id = p.id
+     WHERE p.display_name = get_user_stats.username) AS watched,
+
+    (SELECT count(*)::int
+     FROM public.favorites f
+     JOIN public.profiles p ON f.user_id = p.id
+     WHERE p.display_name = get_user_stats.username) AS favorites,
+
+    (SELECT count(*)::int
+     FROM public.watchlist wl
+     JOIN public.profiles p ON wl.user_id = p.id
+     WHERE p.display_name = get_user_stats.username) AS watchlist,
+
+    (SELECT count(*)::int
+     FROM public.reviews r
+     JOIN public.profiles p ON r.user_id = p.id
+     WHERE p.display_name = get_user_stats.username) AS reviews;
+$$;

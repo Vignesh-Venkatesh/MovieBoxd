@@ -40,3 +40,18 @@ export type User = {
   created_at?: string;
   avatar_url?: string;
 };
+
+export type UserStats = {
+  watched: number;
+  favorites: number;
+  watchlist: number;
+  reviews: number;
+};
+
+export type UserWatched = {
+  id: number;
+  user_id: string;
+  movie_id: number;
+  created_at: string;
+  movies: Movie;
+};

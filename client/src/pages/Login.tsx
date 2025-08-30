@@ -46,7 +46,11 @@ export default function Login() {
       showToast("success", "Logged in!");
       window.location.href = "/";
     } catch (err: any) {
-      showToast("error", err.response?.data?.msg || "Login failed");
+      if (err.response?.data?.error?.code === "user_banned") {
+        showToast("error", "You have been banned");
+      } else {
+        showToast("error", err.response?.data?.msg || "Login failed");
+      }
     }
   };
 
