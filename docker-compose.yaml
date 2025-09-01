@@ -11,7 +11,7 @@ services:
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY} # Supabase Service Role Key
       ENVIRONMENT: ${ENVIRONMENT} # dev or prod environment
     ports:
-      - "3000:3000" # exposing backend port
+      - "${BACKEND_PORT}:3000" # exposing backend port
 
   # frontend service (Vite + React served by nginx)
   frontend:
@@ -23,4 +23,4 @@ services:
     depends_on:
       - backend
     ports:
-      - "8081:80" # mapping container port 80 to host port 8081 (using 8081, coz portfolio is taking 8080)
+      - "${FRONTEND_PORT}:80" # mapping container port 80
