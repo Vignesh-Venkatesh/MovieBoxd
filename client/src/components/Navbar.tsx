@@ -1,15 +1,24 @@
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useAuth } from "../stores/useAuth";
 import Avatar from "./misc/Avatar";
 
 export default function Navbar() {
-  const { user } = useAuth();
-
-  const { clearAuth } = useAuth();
+  const { user, clearAuth } = useAuth();
+  const [term, setTerm] = useState("");
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     clearAuth();
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    console.log("came here");
+    e.preventDefault();
+    if (term.trim()) {
+      navigate(`/movies/search?q=${encodeURIComponent(term)}&page=1`);
+      setTerm("");
+    }
   };
 
   return (
@@ -25,7 +34,10 @@ export default function Navbar() {
 
       <div className="flex gap-5 w-full justify-end items-end">
         {/* Search */}
-        <label className="input input-sm">
+        <form
+          onSubmit={handleSearch}
+          className="flex items-center input input-sm"
+        >
           {/* Search icon */}
           <svg
             className="h-[1em] opacity-50"
@@ -43,8 +55,17 @@ export default function Navbar() {
               <path d="m21 21-4.3-4.3"></path>
             </g>
           </svg>
-          <input type="search" required placeholder="Search" />
-        </label>
+          <input
+            type="search"
+            placeholder="Search"
+            value={term}
+            onChange={(e) => setTerm(e.target.value)}
+            className="bg-transparent outline-none w-full"
+            required
+          />
+          {/* hidden button so enter submits */}
+          <button type="submit" hidden />
+        </form>
 
         {/* Auth Section */}
         <div className="flex items-center">

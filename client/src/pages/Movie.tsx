@@ -35,7 +35,7 @@ export default function Movie() {
           setMovie(json.data);
           document.title = `${json.data.title} | MovieBoxd`;
         } else {
-          navigate("/");
+          navigate("*");
         }
         setMovieLoading(false);
       } catch (err: any) {

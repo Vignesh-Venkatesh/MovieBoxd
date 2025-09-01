@@ -11,6 +11,8 @@ import UserFavorited from "./pages/UserFavorites";
 import UserWatchlist from "./pages/UserWatchlist";
 import PopularMovies from "./pages/PopularMovies";
 import NowPlaying from "./pages/NowPlaying";
+import NotFoundPage from "./pages/NotFound";
+import SearchPage from "./pages/SearchPage";
 import Footer from "./components/Footer";
 
 export default function App() {
@@ -20,6 +22,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+
+        <Route path="/movies/search" element={<SearchPage />} />
 
         <Route path="/movies/popular" element={<PopularMovies />} />
         <Route path="/movies/now-playing" element={<NowPlaying />} />
@@ -31,6 +35,8 @@ export default function App() {
         <Route path="/user/:username/watched" element={<UserWatched />} />
         <Route path="/user/:username/favorites" element={<UserFavorited />} />
         <Route path="/user/:username/watchlist" element={<UserWatchlist />} />
+
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
     </Router>
