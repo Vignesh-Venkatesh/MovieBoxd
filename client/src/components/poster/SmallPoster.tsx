@@ -30,7 +30,7 @@ export default function SmallPoster({
           <img
             src={image_url}
             alt={title}
-            className="rounded-md shadow-lg text-xs text-center line-clamp-2"
+            className="rounded shadow-lg text-xs text-center line-clamp-2"
           />
         </div>
       ) : (

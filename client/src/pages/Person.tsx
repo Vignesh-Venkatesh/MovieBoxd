@@ -35,7 +35,7 @@ export default function Person() {
           setPerson(json.data);
           document.title = `${json.data.name} | MovieBoxd`;
         } else {
-          navigate("/");
+          navigate("*");
         }
         setPersonLoading(false);
       } catch (err: any) {

@@ -48,7 +48,7 @@ export default function Profile() {
         if (json.data) {
           setUser(json.data);
         } else {
-          navigate("/");
+          navigate("*");
         }
         setUserLoading(false);
       } catch (err: any) {
