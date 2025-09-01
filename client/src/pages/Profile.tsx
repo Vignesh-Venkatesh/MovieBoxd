@@ -6,7 +6,14 @@ import Navbar from "../components/Navbar";
 import AppToaster from "../components/misc/Toaster";
 import { showToast } from "../lib/showToast";
 
-import type { UserWatched, UserStats, User } from "../lib/types";
+import type {
+  UserWatched,
+  UserStats,
+  User,
+  UserFavorited,
+  UserWatchlist,
+  UserReviews,
+} from "../lib/types";
 
 import axios from "axios";
 
@@ -17,6 +24,13 @@ export default function Profile() {
   const [user, setUser] = useState<User>();
   const [userStats, setUserStats] = useState<UserStats | null>();
   const [userWatched, setUserWatched] = useState<UserWatched[] | null>([]);
+  const [userFavorited, setUserFavorited] = useState<UserFavorited[] | null>(
+    []
+  );
+  const [userWatchlist, setUserWatchlist] = useState<UserWatchlist[] | null>(
+    []
+  );
+  const [userReviews, setUserReviews] = useState<UserReviews[] | null>([]);
 
   const [userLoading, setUserLoading] = useState(true);
 
@@ -74,8 +88,62 @@ export default function Profile() {
         }
         setUserLoading(false);
       } catch (err: any) {
-        console.error(err.message || "Failed to fetch user stats");
-        showToast("error", "Failed to fetch user stats");
+        console.error(err.message || "Failed to fetch user watched");
+        showToast("error", "Failed to fetch user watched");
+        setUserLoading(true);
+      }
+    };
+
+    const fetchUserFavorites = async () => {
+      try {
+        setUserLoading(true);
+
+        const res = await axios.get(`${URL}user/${username}/favorites`);
+        const json = res.data;
+
+        if (json.data) {
+          setUserFavorited(json.data.slice(0, 9));
+        }
+        setUserLoading(false);
+      } catch (err: any) {
+        console.error(err.message || "Failed to fetch user favorites");
+        showToast("error", "Failed to fetch user favorites");
+        setUserLoading(true);
+      }
+    };
+
+    const fetchUserWatchlisted = async () => {
+      try {
+        setUserLoading(true);
+
+        const res = await axios.get(`${URL}user/${username}/watchlist`);
+        const json = res.data;
+
+        if (json.data) {
+          setUserWatchlist(json.data.slice(0, 9));
+        }
+        setUserLoading(false);
+      } catch (err: any) {
+        console.error(err.message || "Failed to fetch user watchlist");
+        showToast("error", "Failed to fetch user watchlist");
+        setUserLoading(true);
+      }
+    };
+
+    const fetchUserReviews = async () => {
+      try {
+        setUserLoading(true);
+
+        const res = await axios.get(`${URL}user/${username}/reviews`);
+        const json = res.data;
+
+        if (json.data) {
+          setUserReviews(json.data.slice(0, 9));
+        }
+        setUserLoading(false);
+      } catch (err: any) {
+        console.error(err.message || "Failed to fetch user reviews");
+        showToast("error", "Failed to fetch user reviews");
         setUserLoading(true);
       }
     };
@@ -83,6 +151,9 @@ export default function Profile() {
     fetchUserInfo();
     fetchUserStats();
     fetchUserWatched();
+    fetchUserFavorites();
+    fetchUserWatchlisted();
+    fetchUserReviews();
   }, [username]);
 
   return (
@@ -100,6 +171,9 @@ export default function Profile() {
             user={user}
             stats={userStats}
             watched={userWatched}
+            favorites={userFavorited}
+            watchlisted={userWatchlist}
+            reviews={userReviews}
           />
         ) : null}
       </div>

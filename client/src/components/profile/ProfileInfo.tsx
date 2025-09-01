@@ -1,17 +1,34 @@
-import type { User, UserStats, UserWatched } from "../../lib/types";
+import type {
+  User,
+  UserFavorited,
+  UserReviews,
+  UserStats,
+  UserWatched,
+  UserWatchlist,
+} from "../../lib/types";
 import Avatar from "../misc/Avatar";
-import LoadingList from "../loading/LoadingList";
 import SquareSmallAd from "../advertisement/SquareSmallAd";
 import Title from "../misc/Title";
 import SmallPoster from "../poster/SmallPoster";
+import ReviewBox from "../reviews/ReviewBox";
 
 type UserInfoProps = {
   user: User;
   stats?: UserStats | null;
   watched?: UserWatched[] | null;
+  favorites?: UserFavorited[] | null;
+  watchlisted?: UserWatchlist[] | null;
+  reviews?: UserReviews[] | null;
 };
 
-export default function ProfileInfo({ user, stats, watched }: UserInfoProps) {
+export default function ProfileInfo({
+  user,
+  stats,
+  watched,
+  favorites,
+  watchlisted,
+  reviews,
+}: UserInfoProps) {
   return (
     <div className="font-google space-y-5">
       <div className="flex justify-between items-center mt-10">
@@ -87,52 +104,102 @@ export default function ProfileInfo({ user, stats, watched }: UserInfoProps) {
       )}
 
       <div className="flex justify-between">
-        <div className="w-[630px]">
+        <div className="w-[630px] space-y-5">
           {/* recently watched films */}
-          <Title title="watched films" />
-          <div className="grid grid-cols-9 justify-items-end">
-            {watched &&
-              watched.map((watch, idx) => (
-                <SmallPoster
-                  key={idx}
-                  title={watch.movies.title}
-                  image_url={`https://image.tmdb.org/t/p/w500${watch.movies.poster_path}`}
-                  link={`/movie/${watch.movies.id}`}
-                  release_date={watch.movies.release_date}
-                />
-              ))}
-          </div>
-
-          {/* recently watchlisted films */}
-          <div className="w-full">
-            <div className="skeleton h-3 rounded"></div>
-            <LoadingList
-              quantity={8}
-              cols={8}
-              rows={1}
-              width="w-[70px]"
-              height="h-[105px]"
+          <div>
+            <Title
+              title="recently watched films"
+              link={`/user/${user.display_name}/watched`}
             />
+            {watched && watched.length > 0 ? (
+              <div className="grid grid-cols-9 justify-items-end">
+                {watched.map((watch, idx) => (
+                  <SmallPoster
+                    key={idx}
+                    title={watch.movies.title}
+                    image_url={`https://image.tmdb.org/t/p/w500${watch.movies.poster_path}`}
+                    link={`/movie/${watch.movies.id}`}
+                    release_date={watch.movies.release_date}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="h-[105px] w-full flex items-center justify-center bg-base-200 rounded mt-2">
+                <p>No movies watched yet.</p>
+              </div>
+            )}
           </div>
 
           {/* recently favorited films */}
-          <div className="w-full">
-            <div className="skeleton h-3 rounded"></div>
-            <LoadingList
-              quantity={8}
-              cols={8}
-              rows={1}
-              width="w-[70px]"
-              height="h-[105px]"
+          <div>
+            <Title
+              title="recently favorited films"
+              link={`/user/${user.display_name}/favorites`}
             />
+            {favorites && favorites.length > 0 ? (
+              <div className="grid grid-cols-9 justify-items-end">
+                {favorites.map((favorite, idx) => (
+                  <SmallPoster
+                    key={idx}
+                    title={favorite.movies.title}
+                    image_url={`https://image.tmdb.org/t/p/w500${favorite.movies.poster_path}`}
+                    link={`/movie/${favorite.movies.id}`}
+                    release_date={favorite.movies.release_date}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="h-[105px] w-full flex items-center justify-center bg-base-200 rounded mt-2">
+                <p>No movies favorited yet.</p>
+              </div>
+            )}
+          </div>
+
+          {/* recently watchlisted films */}
+          <div>
+            <Title
+              title="recently watchlisted films"
+              link={`/user/${user.display_name}/watchlist`}
+            />
+            {watchlisted && watchlisted.length > 0 ? (
+              <div className="grid grid-cols-9 justify-items-end">
+                {watchlisted.map((watchlist, idx) => (
+                  <SmallPoster
+                    key={idx}
+                    title={watchlist.movies.title}
+                    image_url={`https://image.tmdb.org/t/p/w500${watchlist.movies.poster_path}`}
+                    link={`/movie/${watchlist.movies.id}`}
+                    release_date={watchlist.movies.release_date}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="h-[105px] w-full flex items-center justify-center bg-base-200 rounded mt-2">
+                <p>No movies watchlisted yet.</p>
+              </div>
+            )}
           </div>
 
           {/* latest reviews */}
           <div className="w-full">
-            <div className="skeleton h-3 rounded"></div>
-            <LoadingList quantity={1} width="w-[630px]" height="h-[170px]" />
-            <LoadingList quantity={1} width="w-[630px]" height="h-[170px]" />
-            <LoadingList quantity={1} width="w-[630px]" height="h-[170px]" />
+            <Title
+              title="recently reviewed films"
+              link={`/user/${user.display_name}/reviews`}
+            />
+
+            <div className="mt-2">
+              {reviews && reviews.length > 0 ? (
+                <div className="space-y-2">
+                  {reviews.slice(0, 5).map((review, idx) => (
+                    <ReviewBox key={idx} user={user} review={review} />
+                  ))}
+                </div>
+              ) : (
+                <div className="h-[105px] w-full flex items-center justify-center bg-base-200 rounded mt-2">
+                  <p>No movies reviewed yet.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -148,7 +215,7 @@ export default function ProfileInfo({ user, stats, watched }: UserInfoProps) {
 
           <SquareSmallAd />
 
-          <div>
+          {/* <div>
             <div className="skeleton h-3 rounded"></div>
             <LoadingList quantity={5} width="w-[70px]" height="h-[105px]" />
           </div>
@@ -156,7 +223,7 @@ export default function ProfileInfo({ user, stats, watched }: UserInfoProps) {
           <div>
             <div className="skeleton h-3 rounded"></div>
             <LoadingList quantity={5} width="w-[70px]" height="h-[105px]" />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

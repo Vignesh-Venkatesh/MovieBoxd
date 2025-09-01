@@ -16,9 +16,7 @@ export default function LoadingList({
   const total = quantity || cols * rows;
 
   return (
-    <div
-      className={`my-2 grid gap-2 grid-cols-${cols} grid-rows-${rows} grid-flow-col-dense`}
-    >
+    <div className={`my-2 grid gap-2 grid-cols-${cols} grid-rows-${rows} `}>
       {Array.from({ length: total }).map((_, idx) => (
         <div
           key={idx}

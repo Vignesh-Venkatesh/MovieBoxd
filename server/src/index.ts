@@ -6,6 +6,7 @@ import { moviesRoutes } from "./routes/movies";
 import { devPicksRoutes } from "./routes/devPicks";
 import { personsRoutes } from "./routes/person";
 import { usersRoutes } from "./routes/users";
+import { reviewsRoutes } from "./routes/reviews";
 
 const app = new Hono();
 
@@ -32,6 +33,9 @@ app.route("/person", personsRoutes);
 
 // mounting /user routes
 app.route("/user", usersRoutes);
+
+// mounting /user routes
+app.route("/reviews", reviewsRoutes);
 
 app.get("/", (c) => {
   return c.json({ msg: "Welcome to MovieBoxd API!", status: 200 }, 200);

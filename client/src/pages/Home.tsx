@@ -4,8 +4,10 @@ import WideAd from "../components/advertisement/WideAd";
 import NowPlaying from "../components/movies/NowPlaying";
 import SquareSmallAd from "../components/advertisement/SquareSmallAd";
 import DevPicks from "../components/misc/DevPicks";
+import LatestReviews from "../components/reviews/LatestReviews";
 
 export default function Home() {
+  document.title = "MovieBoxd";
   return (
     <div className="min-h-screen w-[950px] mx-auto font-google">
       <Navbar />
@@ -17,7 +19,9 @@ export default function Home() {
 
       <div className="flex justify-between">
         {/* left side - latest reviews */}
-        <div className="w-[630px]"></div>
+        <div className="w-[630px]">
+          <LatestReviews />
+        </div>
 
         {/* right side - Ad, dev picks, recently joined members */}
         <div className="w-[230px]">

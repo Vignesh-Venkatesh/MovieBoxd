@@ -50,7 +50,7 @@ $$;
 CREATE TABLE IF NOT EXISTS watchlist (
     id BIGSERIAL PRIMARY KEY,
     movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id),
+    user_id UUID NOT NULL REFERENCES profiles(id),
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(user_id, movie_id)
 );
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS watchlist (
 CREATE TABLE IF NOT EXISTS watched (
     id BIGSERIAL PRIMARY KEY,
     movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id),
+    user_id UUID NOT NULL REFERENCES profiles(id),
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(user_id, movie_id)
 );
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS watched (
 CREATE TABLE IF NOT EXISTS favorites (
     id BIGSERIAL PRIMARY KEY,
     movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id),
+    user_id UUID NOT NULL REFERENCES profiles(id),
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(user_id, movie_id)
 );
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS favorites (
 CREATE TABLE IF NOT EXISTS reviews (
     id BIGSERIAL PRIMARY KEY,
     movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id),
+    user_id UUID NOT NULL REFERENCES profiles(id),
     review TEXT NOT NULL,
     rating INT CHECK (rating >= 0 AND rating <= 5),
     created_at TIMESTAMP DEFAULT NOW()
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 CREATE TABLE IF NOT EXISTS review_likes (
     id BIGSERIAL PRIMARY KEY,
     review_id BIGINT NOT NULL REFERENCES reviews(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id),
+    user_id UUID NOT NULL REFERENCES profiles(id),
     created_at TIMESTAMP DEFAULT NOW(),
     UNIQUE(review_id, user_id) -- user can only like once
 );

@@ -55,3 +55,29 @@ export type UserWatched = {
   created_at: string;
   movies: Movie;
 };
+
+export type UserFavorited = {
+  id: number;
+  user_id: string;
+  movie_id: number;
+  created_at: string;
+  movies: Movie;
+};
+
+export type UserWatchlist = {
+  id: number;
+  user_id: string;
+  movie_id: number;
+  created_at: string;
+  movies: Movie;
+};
+
+export type UserReviews = {
+  id: number;
+  user_id: string;
+  movie_id: number;
+  created_at: string;
+  review?: string;
+  rating: number;
+  movies: Movie;
+};

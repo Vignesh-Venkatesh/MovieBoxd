@@ -68,7 +68,7 @@ export default function MovieInfo({ movie, cast }: MovieInfoProps) {
 
               {/* actions */}
               <div className=" w-[230px]">
-                <ActionButtons />
+                <ActionButtons movieId={movie.id} />
               </div>
             </div>
           </div>
