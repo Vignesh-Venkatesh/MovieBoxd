@@ -490,22 +490,33 @@ export async function addUserReview(
     throw new Error(fetchError.message);
   }
 
+  const updateData: { rating: number; review?: string | null } = { rating };
+
+  // Only update review if provided
+  if (review !== undefined) {
+    updateData.review = review;
+  }
+
   if (existingReview) {
     // Update existing review
     const { error: updateError } = await supabase
       .from("reviews")
-      .update({ rating, review })
+      .update(updateData)
       .eq("id", existingReview.id);
 
-    if (updateError) throw new Error(updateError.message);
+    if (updateError) {
+      throw new Error(updateError.message);
+    }
     return { msg: "Review updated", status: 200 };
   } else {
     // Insert new review
     const { error: insertError } = await supabase
       .from("reviews")
-      .insert({ user_id: userId, movie_id: movieId, rating, review });
+      .insert({ user_id: userId, movie_id: movieId, ...updateData });
 
-    if (insertError) throw new Error(insertError.message);
+    if (insertError) {
+      throw new Error(insertError.message);
+    }
     return { msg: "Review added", status: 200 };
   }
 }

@@ -50,7 +50,17 @@ usersRoutes.post("/:username/movies/:movieId/review", async (c) => {
       return c.json({ msg: "Rating and review required", status: 400 }, 400);
     }
 
-    const result = await addUserReview(usernameParam, movieId, rating, review);
+    // only rating is required
+    if (rating === undefined || rating === null) {
+      return c.json({ msg: "Rating is required", status: 400 }, 400);
+    }
+
+    const result = await addUserReview(
+      usernameParam,
+      movieId,
+      rating,
+      review ?? null
+    );
     return c.json(result);
   } catch (err: any) {
     console.error("🛑 POST review error:", err.message || err);

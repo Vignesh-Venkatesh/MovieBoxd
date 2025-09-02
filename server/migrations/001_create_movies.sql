@@ -80,10 +80,11 @@ CREATE TABLE IF NOT EXISTS reviews (
     id BIGSERIAL PRIMARY KEY,
     movie_id BIGINT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES profiles(id),
-    review TEXT NOT NULL,
-    rating INT CHECK (rating >= 0 AND rating <= 5),
+    review TEXT,  
+    rating INT NOT NULL CHECK (rating >= 0 AND rating <= 5),
     created_at TIMESTAMP DEFAULT NOW()
 );
+
 
 -- review likes
 CREATE TABLE IF NOT EXISTS review_likes (
