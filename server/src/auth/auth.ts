@@ -3,11 +3,28 @@ import { supabase } from "../db/db";
 
 const auth = new Hono();
 
-// signup route
+/**
+ * Auth Routes
+ * -----------
+ * Handles user signup, login, and authentication-protected endpoints.
+ *
+ *
+ * Supabase Auth for creating / authenticating users
+ * "profiles" table for storing custom profile info (display_name, bio, avatar_url)
+ *
+ * Routes:
+ * - POST /signup - create user + profile
+ * - POST /login - login user, return session
+ * - GET /me - validate token, fetch user profile
+ */
+
+// ---------------------------
+// Signup Route
+// ---------------------------
 auth.post("/signup", async (c) => {
   const { email, password, display_name, avatar_url, bio } = await c.req.json();
 
-  // checking if display_name already exists
+  // checking if display_name already exists (must be unique)
   const { data: existingProfile, error: checkError } = await supabase
     .from("profiles")
     .select("id")
@@ -25,18 +42,18 @@ auth.post("/signup", async (c) => {
     );
   }
 
-  // creating user in supabase auth
+  // creating user in Supabase Auth
   const { data: user, error } = await supabase.auth.admin.createUser({
     email,
     password,
-    email_confirm: true, // auto confirm so no email confirmation needed
+    email_confirm: true, // auto confirm so no email confirmation is needed
   });
 
   if (error) {
     return c.json({ msg: "Signup failed", error, status: 400 }, 400);
   }
 
-  // inserting profile into profiles table
+  // inserting user profile into "profiles" table (linked by auth user.id)
   const { error: profileError } = await supabase.from("profiles").insert({
     id: user.user?.id,
     display_name,
@@ -45,7 +62,7 @@ auth.post("/signup", async (c) => {
   });
 
   if (profileError) {
-    // cleanup = deleting the auth user so no orphan user remains
+    // if profile creation fails, then we delete the auth user so no orphan record remains
     await supabase.auth.admin.deleteUser(user.user?.id!);
 
     return c.json(
@@ -60,10 +77,13 @@ auth.post("/signup", async (c) => {
   );
 });
 
-// login
+// ---------------------------
+// Login Route
+// ---------------------------
 auth.post("/login", async (c) => {
   const { email, password } = await c.req.json();
 
+  // supabase handles email and password login
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
@@ -76,21 +96,24 @@ auth.post("/login", async (c) => {
   return c.json(
     {
       msg: "Login successful",
-      session: data.session,
+      session: data.session, // contains access + refresh tokens
       status: 200,
     },
     200
   );
 });
 
-// protected route
+// ---------------------------
+// Protected Route: /me
+// ---------------------------
 auth.get("/me", async (c) => {
+  // extracting JWT token from authorization header
   const token = c.req.header("Authorization")?.replace("Bearer ", "");
   if (!token) {
     return c.json({ msg: "Unauthorized", status: 401 }, 401);
   }
 
-  // verifying supabase user with token
+  // validating token with Supabase
   const { data: authData, error: authError } = await supabase.auth.getUser(
     token
   );
@@ -101,11 +124,11 @@ auth.get("/me", async (c) => {
 
   const user = authData.user;
 
-  // fetching matching profile row from profiles table
+  // fetching profile info from "profiles" table
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("id, display_name, created_at, avatar_url, bio")
-    .eq("id", user.id) // profiles.id is same as auth.user.id
+    .eq("id", user.id)
     .maybeSingle();
 
   if (profileError) {
@@ -115,14 +138,14 @@ auth.get("/me", async (c) => {
     );
   }
 
-  // merging info
+  // merging Supabase Auth user data with custom profile
   return c.json(
     {
       status: 200,
       user: {
         id: user.id,
         email: user.email,
-        ...profile, // attaching display_name, created_at, avatar_url, bio
+        ...profile, // attaching display_name, avatar_url, etc.
       },
     },
     200
