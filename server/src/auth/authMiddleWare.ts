@@ -1,11 +1,28 @@
 import { supabase } from "../db/db";
 
+/**
+ * requireAuth middleware/helper
+ * -----------------------------
+ * Ensures the request is authenticated and fetches the associated user profile.
+ *
+ * Flow:
+ * 1. Reads `Authorization: Bearer <token>` header
+ * 2. Validates the token with Supabase Auth
+ * 3. Fetches the matching row in `profiles` (custom user metadata)
+ * 4. Returns a merged `fullUser` object (auth data + profile data)
+ *
+ * Returns:
+ * - `c.json(...)` with appropriate error message if unauthorized/invalid
+ * - A `fullUser` object if authentication is successful
+ */
 export async function requireAuth(c: any) {
+  // extracting token from request header
   const token = c.req.header("Authorization")?.replace("Bearer ", "");
   if (!token) {
     return c.json({ msg: "Unauthorized", status: 401 }, 401);
   }
 
+  // verifying token with Supabase Auth
   const { data: authData, error: authError } = await supabase.auth.getUser(
     token
   );
@@ -15,7 +32,7 @@ export async function requireAuth(c: any) {
 
   const authUser = authData.user;
 
-  // fetching profile row to get display_name, avatar_url, bio, etc.
+  // fetching the user profile (display_name, avatar_url, bio, created_at)
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("display_name, avatar_url, bio, created_at")
@@ -26,13 +43,13 @@ export async function requireAuth(c: any) {
     return c.json({ msg: "Profile not found", status: 404 }, 404);
   }
 
-  // merging auth user info and profile info
+  // merging Supabase Auth info with custom profile info
   const fullUser = {
     id: authUser.id,
     email: authUser.email,
     role: authUser.role,
     updated_at: authUser.updated_at,
-    ...profile, // attaching display_name, avatar_url, bio
+    ...profile, // includes display_name, avatar_url, bio, created_at
   };
 
   return fullUser;
