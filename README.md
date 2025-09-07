@@ -1,116 +1,103 @@
 # MovieBoxd
 
-### Planned API Routes
+MovieBoxd is a web application for discovering, tracking, and reviewing movies. Users can explore now playing, popular, and similar movies, as well as create an account to manage watched, favorited, and watchlisted movies. It also provides an interactive community for sharing movie reviews. This project was inspired by [LetterBoxd](https://letterboxd.com).
 
-#### Movies
+## Features
 
-- `GET /api/movies/:id`
-  Fetch detailed information about a single movie (title, synopsis, release date, poster, etc.).
+- **User Accounts:** Register and manage personal profiles with avatars and bios.
+- **Movie Discovery:** Browse Now Playing, Popular, Upcoming, and Developer Picks movies.
+- **Movie Details:** Detailed pages with movie info, cast, reviews, ratings, and similar movies.
+- **Reviews:** Write, edit, and delete movie reviews with star ratings.
+- **Favorites & Watchlist:** Keep track of favorite movies and movies you want to watch.
+- **Toaster Notifications:** Informative user feedback for actions like adding reviews or errors.
 
-  ```json
-  Example Response:
-  {
-    "id": 123,
-    "title": "XYZ",
-    "release_date": "2010-07-16",
-    "userStatus": {
-      "watched": true,
-      "watchlisted": false,
-      "favorited": true,
-      "reviewId": 789,
-      "rating": 4.5
-    }
-  }
-  ```
+## Tech Stack
 
-- `GET /api/movies/:id/credits` ✔️
-  Get cast and crew information for a specific movie.
+- **Frontend:**
 
-- `GET /api/movies/now-playing` ✔️
-  Retrieve a list of movies currently in theaters.
+  - React + TypeScript
+  - React Router for navigation
+  - TailwindCSS + DaisyUI for styling
+  - React Icons for icons
 
-- `GET /api/movies/popular` ✔️
-  Get a list of trending/popular movies based on activity or API data.
+- **Backend:**
 
-- `GET /api/movies/upcoming` ✔️
-  Fetch a list of movies that are scheduled for future release.
+  - Hono + Express (assumed from API endpoints)
+  - REST API for fetching movies, reviews, and user data
+  - Using the Bun runtime
 
-- `GET /api/movies/search?movie=` ✔️
-  Search for movies by title (query parameter).
+- **APIs & Data:**
 
-- `GET /api/movies/:movieId/reviews`
-  Fetch all reviews written for a given movie.
+  - TMDB API for movie data
+  - Custom backend API
 
-- `GET /api/movies/:id/similar` ✔️
-  Retrieve movies that are similar to the given movie (based on genre, cast, etc.).
+- **Other Tools:**
+  - Axios for HTTP requests
+  - Vite for fast frontend bundling
 
-- `GET /api/movies/:id/recommendations` ✔️
-  Get personalized or algorithmic recommendations related to a specific movie.
+## Installation
 
-- `GET /api/movies/random` ✔️
-  Returns a completely random movie. Can use for “Surprise Me” feature.
+> _In my case, I have used the `Bun` runtime._ > _If you are using Node, just replace it with `node` or `npm` respectively._
 
-#### Users
+1. Clone the repository:
 
-- `GET /api/users/:id`
-  Fetch a user’s profile (username, bio, avatar, stats).
+```bash
+git clone https://github.com/Vignesh-Venkatesh/movieboxd.git
+cd movieboxd
+```
 
-- `GET /api/users/recent`
-  Fetch a list of the most recently registered users.
+2. Install dependencies:
 
-- `GET /api/users/:id/watched`
-  Get the list of movies the user has marked as watched.
+```bash
+bun install
+```
 
-- `GET /api/users/:id/watchlist`
-  Fetch the movies the user has saved to their watchlist.
+3. Add environment variables in a `.env` file:
 
-- `GET /api/users/:id/favorites`
-  Retrieve a user’s favorite movies.
+```bash
+# frontend env variables
+VITE_BACKEND_URL=''
+VITE_TMDB_API_KEY=''
 
-- `GET /api/users/:userId/reviews`
-  Get all reviews written by a specific user.
+# backend env variables
+PORT=
+TMDB_API_KEY=''
+DATABASE_URL=''
+FRONTEND_URL=''
+SUPABASE_URL=''
+SUPABASE_ANON_KEY=''
+SUPABASE_SERVICE_ROLE_KEY=''
+ENVIRONMENT="development" # optional
+```
 
-- `POST /api/users/:id/watched/:movieId`
-  mark as watched
+4. Run the development server:
 
-- `DELETE /api/users/:id/watched/:movieId`
-  unmark as watched
+```bash
+bun run dev
+```
 
-- `POST /api/users/:id/watchlist/:movieId`
-  mark as watchlist
+5. Open the app in the browser:
 
-- `DELETE /api/users/:id/watchlist/:movieId`
-  unmark as watchlist
+```bash
+http://localhost:5173 # Note: PORT number may differ in your case.
+```
 
-- `POST /api/users/:id/favorites/:movieId`
-  mark as favorites
+## Usage
 
-- `DELETE /api/users/:id/favorites/:movieId`
-  unmark as favorites
+- Navigate to the homepage to explore popular, upcoming, and dev-picked movies.
+- Click a movie poster to view its details, cast, and reviews.
+- Log in or create an account to write reviews, track watched movies, add favorites, and maintain a watchlist.
 
-#### Reviews
+<!-- ## Screenshots -->
 
-- `GET /api/reviews/:id`
-  Fetch details of a single review (review text, rating, likes, etc.).
+## Demo
 
-- `GET /api/movies/:movieId/reviews/:userId`
-  Retrieve the review written by a specific user for a specific movie.
+You can try the live demo here: [MovieBoxd](https://movieboxd.vigneshvenkatesh.com)
 
-- `POST /api/movies/:movieId/reviews`
-  Create a new review for a movie (requires authentication).
+## Contributing
 
-- `PUT /api/reviews/:id`
-  Update an existing review (only allowed if the user owns it).
-
-- `DELETE /api/reviews/:id`
-  Delete a review (only allowed if the user owns it).
-
----
-
-> [References used for the project]
->
-> [Letterboxd](https://letterboxd.com)
->
-> [Better Auth - Syntax](https://www.youtube.com/watch?v=_OApmLmex14)
->
-> [Docker Tutorial - Syntax](https://www.youtube.com/watch?v=RHjXPN_h1YA)
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature`
+3. Make your changes and commit: `git commit -m "Add feature"`
+4. Push to your branch: `git push origin feature/your-feature`
+5. Open a pull request.
