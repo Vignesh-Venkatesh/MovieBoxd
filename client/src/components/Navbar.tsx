@@ -4,24 +4,27 @@ import { useAuth } from "../stores/useAuth";
 import Avatar from "./misc/Avatar";
 
 export default function Navbar() {
-  const { user, clearAuth } = useAuth();
-  const [term, setTerm] = useState("");
-  const navigate = useNavigate();
+  const { user, clearAuth } = useAuth(); // Get current user and logout function
+  const [term, setTerm] = useState(""); // Search input state
+  const navigate = useNavigate(); // Navigation hook
 
+  // Logout handler
   const handleLogout = () => {
     clearAuth();
   };
 
+  // Search form submission handler
   const handleSearch = (e: React.FormEvent) => {
-    console.log("came here");
     e.preventDefault();
     if (term.trim()) {
+      // Navigate to search page with query
       navigate(`/movies/search?q=${encodeURIComponent(term)}&page=1`);
-      setTerm("");
+      setTerm(""); // Reset search input
     }
   };
 
   return (
+    // Navbar container
     <div className="my-4 flex justify-between items-end">
       {/* MovieBoxd Logo */}
       <div className="w-1/4">
@@ -32,8 +35,9 @@ export default function Navbar() {
         </Link>
       </div>
 
+      {/* Right side: search + auth */}
       <div className="flex gap-5 w-full justify-end items-end">
-        {/* Search */}
+        {/* Search Form */}
         <form
           onSubmit={handleSearch}
           className="flex items-center input input-sm"
@@ -55,6 +59,8 @@ export default function Navbar() {
               <path d="m21 21-4.3-4.3"></path>
             </g>
           </svg>
+
+          {/* Search input */}
           <input
             type="search"
             placeholder="Search"
@@ -63,14 +69,15 @@ export default function Navbar() {
             className="bg-transparent outline-none w-full"
             required
           />
-          {/* hidden button so enter submits */}
+
+          {/* Hidden submit button so Enter works */}
           <button type="submit" hidden />
         </form>
 
         {/* Auth Section */}
         <div className="flex items-center">
           {user ? (
-            // Avatar - if user logged in
+            // Avatar and dropdown if logged in
             <div className="dropdown dropdown-hover dropdown-end">
               <div tabIndex={0} role="button" className="cursor-pointer">
                 <Avatar
@@ -80,16 +87,18 @@ export default function Navbar() {
                 />
               </div>
 
-              {/* dropdown menu */}
+              {/* Dropdown menu */}
               <ul
                 tabIndex={0}
                 className="dropdown-content menu text-xs font-semibold text-center bg-base-100 rounded-box z-1 w-20 p-1 space-y-1 shadow-sm rounded-sm"
               >
+                {/* Profile link */}
                 <li>
                   <Link to={`/profile/${user.display_name}`}>
                     <h1>Profile</h1>
                   </Link>
                 </li>
+                {/* Logout button */}
                 <li>
                   <h1
                     className="text-center bg-red-500 text-black hover:bg-red-600"
@@ -101,7 +110,7 @@ export default function Navbar() {
               </ul>
             </div>
           ) : (
-            // Login/SignUp Buttons - if user not logged in
+            // Login / Sign Up buttons if not logged in
             <>
               <Link to="/login">
                 <button className="btn btn-sm btn-base-300 hover:bg-green-400 hover:text-black hover:border-transparent">
