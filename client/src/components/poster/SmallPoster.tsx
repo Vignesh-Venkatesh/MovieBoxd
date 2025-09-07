@@ -16,21 +16,20 @@ export default function SmallPoster({
 }: PosterProps) {
   const PosterContent = (
     <div className={link ? "tooltip tooltip-bottom" : ""}>
-      <h1
-        className={
-          link
-            ? "tooltip-content font-semibold text-xs bg-base-300 p-2 shadow-xl"
-            : "hidden"
-        }
-      >
-        {title} {release_date && `(${release_date.slice(0, 4)})`}
-      </h1>
+      {/* Tooltip */}
+      {link && (
+        <h1 className="tooltip-content font-semibold text-xs bg-base-300 p-2 shadow-md">
+          {title} {release_date && `(${release_date.slice(0, 4)})`}
+        </h1>
+      )}
+
+      {/* Poster Image or Placeholder */}
       {image_url ? (
         <div className="rounded bg-base-200 w-[70px] h-[105px] flex justify-center items-center border-2 border-transparent hover:border-green-500 transition-colors duration-300 shadow-md">
           <img
             src={image_url}
             alt={title}
-            className="rounded shadow-lg text-xs text-center line-clamp-2"
+            className="rounded object-cover w-full h-full"
           />
         </div>
       ) : (
