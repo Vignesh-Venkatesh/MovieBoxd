@@ -13,20 +13,26 @@ import axios from "axios";
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function PopularMovies() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState<Movie[]>([]); // State to store popular movies
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // Start loading
+
+        // Fetch popular movies from backend
         const res = await axios.get(`${URL}movies/popular?page=1`);
         const json = res.data;
+
+        // Take first 4 movies to display
         setMovies(json.data.results.slice(0, 4) || []);
-        setLoading(false);
+
+        setLoading(false); // Done loading
       } catch (err: any) {
+        // Show toast notification if fetch fails
         showToast("error", err.message || "Failed to fetch movies");
-        setLoading(true);
+        setLoading(true); // Keep loading true (or could reset to false)
       }
     };
 
@@ -35,13 +41,13 @@ export default function PopularMovies() {
 
   return (
     <div className="">
-      {/* toaster */}
+      {/* toaster for notifications */}
       <AppToaster />
 
-      {/* title */}
+      {/* section title with link to full list */}
       <Title title="Popular Movies" link="/movies/popular" />
 
-      {/* loading */}
+      {/* loading skeleton while fetching */}
       {loading && (
         <LoadingList
           quantity={4}
@@ -52,7 +58,7 @@ export default function PopularMovies() {
         />
       )}
 
-      {/* popular movies posters */}
+      {/* display popular movie posters when loaded */}
       <div className="grid grid-cols-4 gap-4 justify-items-end my-2">
         {!loading &&
           movies.map((movie, idx) => (

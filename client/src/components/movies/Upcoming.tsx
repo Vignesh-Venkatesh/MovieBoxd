@@ -7,26 +7,29 @@ import LoadingList from "../loading/LoadingList";
 import type { Movie } from "../../lib/types";
 
 import { useEffect, useState } from "react";
-
 import axios from "axios";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function Upcoming() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState<Movie[]>([]); // State for upcoming movies
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchUpcomingMovies = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // Start loading
+
+        // Fetch upcoming movies from backend
         const res = await axios.get(`${URL}movies/upcoming?page=1`);
         const json = res.data;
+
+        // Take first 12 movies or empty array if none
         setMovies(json.data.results.slice(0, 12) || []);
       } catch (err: any) {
         showToast("error", err.message || "Failed to fetch movies");
       } finally {
-        setLoading(false);
+        setLoading(false); // Done loading
       }
     };
 
@@ -35,13 +38,13 @@ export default function Upcoming() {
 
   return (
     <div className="">
-      {/* toaster */}
+      {/* toaster for notifications */}
       <AppToaster />
 
-      {/* title */}
+      {/* section title with link */}
       <Title title="Upcoming Movies" link="/movies/upcoming" />
 
-      {/* loading */}
+      {/* show loading skeleton while fetching */}
       {loading && (
         <LoadingList
           quantity={12}
@@ -52,7 +55,7 @@ export default function Upcoming() {
         />
       )}
 
-      {/* upcoming movies posters */}
+      {/* display upcoming movie posters */}
       <div className="grid grid-cols-12 justify-items-end my-2">
         {!loading &&
           movies.map((movie, idx) => (

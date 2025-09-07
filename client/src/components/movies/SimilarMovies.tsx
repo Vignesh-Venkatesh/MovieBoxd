@@ -11,11 +11,11 @@ import axios from "axios";
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 type SimilarMoviesProps = {
-  tmdb_id: number;
-  movie_name: string;
-  quantity?: number;
-  cols?: number;
-  rows?: number;
+  tmdb_id: number; // TMDb movie ID to fetch similar movies for
+  movie_name: string; // Current movie name to display in the section title
+  quantity?: number; // Number of similar movies to show
+  cols?: number; // Number of columns in grid layout
+  rows?: number; // Number of rows in grid layout
 };
 
 export default function SimilarMovies({
@@ -25,20 +25,24 @@ export default function SimilarMovies({
   cols = 2,
   rows = 2,
 }: SimilarMoviesProps) {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [movies, setMovies] = useState<Movie[]>([]); // State for fetched similar movies
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
     const fetchSimilarMovies = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // Start loading
 
+        // Fetch similar movies from backend
         const res = await axios.get(`${URL}movies/${tmdb_id}/similar`);
         const json = res.data;
+
+        // Slice to desired quantity
         setMovies(json.data.results.slice(0, quantity) || []);
 
-        setLoading(false);
+        setLoading(false); // Done loading
       } catch (err: any) {
+        // Show error toast if request fails
         showToast("error", err.message || "Failed to fetch similar movies");
         setLoading(false);
       }
@@ -47,19 +51,22 @@ export default function SimilarMovies({
     fetchSimilarMovies();
   }, [tmdb_id, quantity]);
 
-  // not rendering whole section if no similar movies
+  // Don't render section if no similar movies found
   if (!loading && movies.length === 0) {
     return null;
   }
 
-  // rendering if similar movies exist
+  // Render section with title and movies
   return (
     <div className="animate-fade-in">
+      {/* toaster for notifications */}
       <AppToaster />
 
+      {/* section title */}
       <Title title={`Similar movies to '${movie_name}'`} />
 
       {loading ? (
+        // Show loading skeleton while fetching
         <LoadingList
           quantity={quantity}
           width="w-[70px]"
@@ -68,6 +75,7 @@ export default function SimilarMovies({
           rows={rows}
         />
       ) : (
+        // Display similar movies in a grid
         <div
           className={`grid grid-cols-${cols} grid-rows-${rows} justify-items-end my-2`}
         >

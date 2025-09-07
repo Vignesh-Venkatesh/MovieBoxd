@@ -3,16 +3,17 @@ import LargePoster from "../poster/LargePoster";
 import CastList from "../cast/CastList";
 import SimilarMovies from "./SimilarMovies";
 import ActionButtons from "../action/ActionButtons";
+import MovieReviews from "./MovieReviews";
 
 type MovieInfoProps = {
-  movie: Movie;
-  cast?: Cast[] | null;
+  movie: Movie; // Movie object with details
+  cast?: Cast[] | null; // Optional array of cast members
 };
 
 export default function MovieInfo({ movie, cast }: MovieInfoProps) {
   return (
     <div className="font-google">
-      {/* backdrop */}
+      {/* Backdrop image section */}
       <div>
         {movie.backdrop_path ? (
           <div className="opacity-90 absolute -top-10 left-1/2 -translate-x-1/2 -z-10 overflow-hidden w-[1200px] h-[600px] animate-fade-in">
@@ -21,29 +22,29 @@ export default function MovieInfo({ movie, cast }: MovieInfoProps) {
               alt={movie.title}
               loading="lazy"
             />
-            {/* bottom fade */}
+            {/* Fades for better text readability */}
             <div className="absolute bottom-0 left-0 w-full h-82 bg-gradient-to-b from-transparent to-base-100" />
-            {/* left fade */}
             <div className="absolute top-0 left-0 w-82 h-full bg-gradient-to-l from-transparent to-base-100" />
-            {/* right fade */}
             <div className="absolute top-0 right-0 w-82 h-full bg-gradient-to-r from-transparent to-base-100" />
           </div>
         ) : (
-          <></>
+          <></> // No backdrop, render nothing
         )}
       </div>
 
+      {/* Main content */}
       <div className={movie.backdrop_path ? "mt-100" : "mt-10"}>
         <div className="flex justify-between animate-fade-in">
+          {/* Large poster */}
           <LargePoster
             title={movie.title}
             image_url={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             release_date={movie.release_date}
           />
 
-          {/* title, overview, cast, reviews, actions*/}
+          {/* Movie details: title, overview, cast, reviews, action buttons */}
           <div className="space-y-2 ">
-            {/* title */}
+            {/* Movie title with release year */}
             <div className="w-[670px]">
               <h1 className="font-cormorant text-4xl font-bold text-green-100/90">
                 {movie.title}{" "}
@@ -58,15 +59,19 @@ export default function MovieInfo({ movie, cast }: MovieInfoProps) {
             </div>
 
             <div className="flex justify-between mt-10">
-              {/* overview, reviews, cast */}
+              {/* Left column: overview, cast, reviews */}
               <div className="w-[390px] space-y-10 ">
+                {/* Overview paragraph */}
                 {movie.overview && <p>{movie.overview}</p>}
 
-                {/* cast */}
+                {/* Cast list */}
                 {cast && <CastList cast={cast} />}
+
+                {/* Reviews section */}
+                <MovieReviews movieId={movie.id} />
               </div>
 
-              {/* actions */}
+              {/* Right column: action buttons (watched, favorite, watchlist, review) */}
               <div className=" w-[230px]">
                 <ActionButtons movieId={movie.id} />
               </div>
@@ -75,6 +80,7 @@ export default function MovieInfo({ movie, cast }: MovieInfoProps) {
         </div>
       </div>
 
+      {/* Similar movies section */}
       <div className="mt-10">
         <SimilarMovies
           movie_name={movie.title}
