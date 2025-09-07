@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 
 type AvatarProps = {
-  src?: string;
-  username?: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | string;
-  className?: string;
+  src?: string; // URL of the avatar image
+  username?: string; // Used to show initial if image fails
+  size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | string; // size of avatar
+  className?: string; // additional custom classes
 };
 
+// Map predefined sizes to Tailwind width/height classes
 const sizeMap: Record<string, string> = {
   xs: "w-8 h-8",
   sm: "w-12 h-12",
@@ -23,33 +24,38 @@ export default function Avatar({
   size = "md",
   className,
 }: AvatarProps) {
-  const [isValid, setIsValid] = useState(true);
+  const [isValid, setIsValid] = useState(true); // Track if image loads correctly
 
+  // Check if the image URL is valid
   useEffect(() => {
     if (!src) return;
     const img = new Image();
     img.src = src;
-    img.onload = () => setIsValid(true);
-    img.onerror = () => setIsValid(false);
+    img.onload = () => setIsValid(true); // valid image
+    img.onerror = () => setIsValid(false); // fallback if image fails
   }, [src]);
 
-  const finalSize = sizeMap[size] || size;
+  const finalSize = sizeMap[size] || size; // use mapped size or custom size string
 
   return (
+    // Container: rounded, flex-centered, overflow hidden
     <div
       className={`rounded-full bg-base-300 flex items-center justify-center overflow-hidden ${finalSize} ${className}`}
     >
       {isValid && src ? (
+        // Render image if valid
         <img
           src={src}
           alt={username}
           className="w-full h-full object-cover rounded-full"
         />
       ) : username ? (
+        // Fallback: first letter of username
         <span className="text-xl font-bold text-green-200">
           {username.charAt(0).toUpperCase()}
         </span>
       ) : (
+        // Fallback: generic user icon
         <FaUser className="text-green-200 text-sm" />
       )}
     </div>
