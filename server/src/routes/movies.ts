@@ -159,7 +159,7 @@ moviesRoutes.get("/:id/similar", async (c) => {
     // fetching similar movies via TMDb helper
     const result = await getSimilarMovies(tmdb_id, page);
 
-    return c.json({ msg: "Similar movies fetched", data: result, status: 200 });
+    return c.json(result);
   } catch (err: any) {
     console.error("🛑 Unexpected error:", err.message || err);
     return c.json(
@@ -179,9 +179,7 @@ moviesRoutes.get("/:id/recommendations", async (c) => {
     const result = await getRecommendations(tmdb_id, page);
 
     return c.json({
-      msg: "Recommended movies fetched",
-      data: result,
-      status: 200,
+      result,
     });
   } catch (err: any) {
     console.error("🛑 Unexpected error:", err.message || err);
@@ -200,7 +198,7 @@ moviesRoutes.get("/:id/credits", async (c) => {
     // fetching cast and crew via TMDb helper
     const result = await getMovieCredits(tmdb_id);
 
-    return c.json({ msg: "Movie credits fetched", data: result, status: 200 });
+    return c.json(result);
   } catch (err: any) {
     console.error("🛑 Unexpected error:", err.message || err);
     return c.json(
