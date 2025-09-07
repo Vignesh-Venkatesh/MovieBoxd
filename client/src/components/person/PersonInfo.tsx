@@ -23,7 +23,7 @@ export default function PersonInfo({
           <hr className="opacity-20 my-1" />
         </div>
 
-        <div className="mt-2 grid grid-cols-5 justify-items-end">
+        <div className="mt-2 grid grid-cols-5 justify-items-end gap-2">
           {person_credits &&
             person_credits.map((movie, idx) => (
               <MediumPoster
@@ -37,7 +37,7 @@ export default function PersonInfo({
         </div>
       </div>
 
-      {/* person picture and person biography */}
+      {/* person picture and biography */}
       <div className="w-[230px] space-y-2">
         {/* person picture */}
         <LargePoster
@@ -47,7 +47,7 @@ export default function PersonInfo({
 
         {/* biography */}
         <div>
-          <h1 className="text-sm ">{person.biography}</h1>
+          <h1 className="text-sm">{person.biography}</h1>
         </div>
       </div>
     </div>
