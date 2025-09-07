@@ -12,7 +12,7 @@ personsRoutes.get("/:id/credits", async (c) => {
     // fetching person credits from TMDb
     const result = await getPersonCredits(person_id);
 
-    return c.json({ msg: "Person credits fetched", data: result, status: 200 });
+    return c.json(result);
   } catch (err: any) {
     console.error("🛑 Unexpected error:", err.message || err);
     return c.json(
@@ -30,7 +30,7 @@ personsRoutes.get("/:id", async (c) => {
     // fetching person info from TMDb
     const result = await getPersonInfo(person_id);
 
-    return c.json({ msg: "Person info fetched", data: result, status: 200 });
+    return c.json(result);
   } catch (err: any) {
     console.error("🛑 Unexpected error:", err.message || err);
     return c.json(
