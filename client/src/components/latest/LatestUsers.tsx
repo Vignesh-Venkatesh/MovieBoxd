@@ -77,11 +77,13 @@ export default function LatestUsers() {
               <Avatar
                 src={user.avatar_url}
                 username={user.display_name}
-                size="sm"
+                size="xs"
               />
               {/* Username and join date */}
               <div className="flex flex-col">
-                <h1 className="font-bold">{user.display_name}</h1>
+                <h1 className="font-bold text-sm truncate w-[135px]">
+                  {user.display_name}
+                </h1>
                 <p className="text-xs italic">
                   Joined{" "}
                   {new Date(user.created_at).toLocaleDateString("en-US", {

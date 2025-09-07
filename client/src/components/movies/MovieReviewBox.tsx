@@ -33,7 +33,7 @@ export default function MovieReviewBox({ review }: MovieReviewBoxProps) {
 
       <div className="space-y-2 flex-1">
         {/* Username and review date */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col justify-between">
           <Link to={`/profile/${user.display_name}`}>
             <h1 className="font-bold text-green-300 hover:text-green-500 transition-colors">
               {user.display_name}
