@@ -66,7 +66,7 @@ usersRoutes.post("/:username/movies/:movieId/review", async (c) => {
     const result = await addUserReview(
       usernameParam,
       movieId,
-      rating,
+      parseInt(rating),
       review ?? null
     );
 

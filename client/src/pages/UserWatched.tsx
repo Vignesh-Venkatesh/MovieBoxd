@@ -1,31 +1,44 @@
+// React and hooks
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+
+// Helpers
 import { showToast } from "../lib/showToast";
 import axios from "axios";
+
+// Components
 import Navbar from "../components/Navbar";
 import Title from "../components/misc/Title";
 import SmallPoster from "../components/poster/SmallPoster";
-import type { UserWatched } from "../lib/types";
 import LoadingList from "../components/loading/LoadingList";
 
+// Types
+import type { UserWatched } from "../lib/types";
+
+// Backend URL
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function UserWatched() {
+  // Get username from URL
   const { username } = useParams();
 
+  // State
   const [watched, setWatched] = useState<UserWatched[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const pageSize = 96; // 12 per row * 8 rows
+  // Pagination limit
+  const pageSize = 96; // 12 columns * 8 rows
 
+  // Fetch watched movies
   useEffect(() => {
     const fetchWatched = async () => {
       try {
         setLoading(true);
         document.title = `${username}'s Watched Movies | MovieBoxd`;
 
+        // Fetch paginated watched movies from backend
         const res = await axios.get(
           `${URL}user/${username}/watched?page=${page}&limit=${pageSize}`
         );
@@ -33,8 +46,8 @@ export default function UserWatched() {
         const { data, pagination } = res.data;
 
         if (data) {
-          setWatched(data);
-          setTotalPages(pagination.totalPages);
+          setWatched(data); // store movies
+          setTotalPages(pagination.totalPages); // set total pages for pagination
         }
         setLoading(false);
       } catch (err: any) {
@@ -47,6 +60,7 @@ export default function UserWatched() {
     fetchWatched();
   }, [username, page]);
 
+  // Loading skeleton
   if (loading) {
     return (
       <div className="min-h-screen w-[950px] mx-auto font-google">
@@ -66,6 +80,7 @@ export default function UserWatched() {
     );
   }
 
+  // Render watched movies
   return (
     <div className="min-h-screen w-[950px] mx-auto font-google">
       <Navbar />
@@ -88,7 +103,7 @@ export default function UserWatched() {
               ))}
             </div>
 
-            {/* Pagination */}
+            {/* Pagination controls */}
             <div className="flex justify-center items-center gap-4 mt-6">
               <button
                 disabled={page === 1}
@@ -110,6 +125,7 @@ export default function UserWatched() {
             </div>
           </>
         ) : (
+          // If no movies watched
           <div className="h-[150px] w-full flex items-center justify-center bg-base-200 rounded mt-2">
             <p>No movies watched yet.</p>
           </div>

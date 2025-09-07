@@ -1,27 +1,37 @@
+// React and hooks
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+
+// Helpers
 import { showToast } from "../lib/showToast";
-import ReviewBox from "../components/reviews/ReviewBox";
 import axios from "axios";
+
+// Components
 import Navbar from "../components/Navbar";
 import Title from "../components/misc/Title";
+import ReviewBox from "../components/reviews/ReviewBox";
 
+// Types
 import type { UserReviews as UserReviewType, User } from "../lib/types";
 
+// Backend URL
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function UserReviews() {
+  // Get username from URL
   const { username } = useParams();
   const navigate = useNavigate();
 
+  // State
   const [userReviews, setUserReviews] = useState<UserReviewType[]>([]);
   const [userLoading, setUserLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
-  // pagination state
+  // Pagination state
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const limit = 5; // reviews per page
 
+  // Fetch user info
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -32,9 +42,9 @@ export default function UserReviews() {
         const json = res.data;
 
         if (json.data) {
-          setUser(json.data);
+          setUser(json.data); // set user info
         } else {
-          navigate("/");
+          navigate("/"); // redirect if user not found
         }
         setUserLoading(false);
       } catch (err: any) {
@@ -47,6 +57,7 @@ export default function UserReviews() {
     fetchUserInfo();
   }, [username, navigate]);
 
+  // Fetch user reviews
   useEffect(() => {
     const fetchUserReviews = async () => {
       try {
@@ -58,7 +69,7 @@ export default function UserReviews() {
         const json = res.data;
 
         if (json.data) {
-          setUserReviews(json.data);
+          setUserReviews(json.data); // set reviews for current page
         }
         setUserLoading(false);
       } catch (err: any) {
@@ -73,6 +84,7 @@ export default function UserReviews() {
     }
   }, [username, page]);
 
+  // Loading skeleton for initial load
   if (userLoading && page === 1) {
     return (
       <div className="min-h-screen w-[950px] mx-auto font-google">
@@ -89,6 +101,7 @@ export default function UserReviews() {
     );
   }
 
+  // Render reviews
   return (
     <div className="min-h-screen w-[950px] mx-auto font-google">
       <Navbar />
@@ -98,6 +111,7 @@ export default function UserReviews() {
 
         {user && userReviews.length > 0 ? (
           <div className="space-y-2">
+            {/* List of reviews */}
             {userReviews.map((ur, idx) => (
               <ReviewBox key={idx} user={user} review={ur} />
             ))}
@@ -115,13 +129,14 @@ export default function UserReviews() {
               <button
                 className="btn btn-sm"
                 onClick={() => setPage((p) => p + 1)}
-                disabled={userReviews.length < limit}
+                disabled={userReviews.length < limit} // disable if fewer than limit
               >
                 Next
               </button>
             </div>
           </div>
         ) : (
+          // No reviews message
           <div className="h-[105px] w-full flex items-center justify-center bg-base-200 rounded mt-2">
             <p>No movies reviewed yet.</p>
           </div>

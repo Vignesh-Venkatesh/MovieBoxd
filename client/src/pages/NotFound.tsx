@@ -2,7 +2,7 @@ export default function NotFoundPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 text-base-content">
       <div className="flex flex-col items-center space-y-6">
-        {/* reel svg */}
+        {/* Reel SVG */}
         <svg
           fill="#364153"
           height="200px"
@@ -72,16 +72,18 @@ export default function NotFoundPage() {
           </g>
         </svg>
 
-        {/* text */}
+        {/* 404 heading */}
         <h1 className="text-6xl font-bold text-green-600 -translate-x-2">
           404
         </h1>
+
+        {/* Description message */}
         <p className="text-lg text-center max-w-md">
           Looks like our movie reel rolled away... <br />
           This page doesn't exist.
         </p>
 
-        {/* button back home */}
+        {/* Button linking back to home page */}
         <a
           href="/"
           className="btn bg-green-600 hover:bg-green-500 text-black btn-wide"
