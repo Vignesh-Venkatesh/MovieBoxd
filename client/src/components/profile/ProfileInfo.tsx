@@ -13,12 +13,12 @@ import SmallPoster from "../poster/SmallPoster";
 import ReviewBox from "../reviews/ReviewBox";
 
 type UserInfoProps = {
-  user: User;
-  stats?: UserStats | null;
-  watched?: UserWatched[] | null;
-  favorites?: UserFavorited[] | null;
-  watchlisted?: UserWatchlist[] | null;
-  reviews?: UserReviews[] | null;
+  user: User; // main user object
+  stats?: UserStats | null; // user statistics (watched, favorited, etc.)
+  watched?: UserWatched[] | null; // list of recently watched movies
+  favorites?: UserFavorited[] | null; // list of recently favorited movies
+  watchlisted?: UserWatchlist[] | null; // list of movies in watchlist
+  reviews?: UserReviews[] | null; // list of user reviews
 };
 
 export default function ProfileInfo({
@@ -31,17 +31,18 @@ export default function ProfileInfo({
 }: UserInfoProps) {
   return (
     <div className="font-google space-y-5">
+      {/* Header Section: Avatar, username, join date, user stats */}
       <div className="flex justify-between items-center mt-10">
-        {/* avatar, username and joined */}
+        {/* Avatar and Username */}
         <div className="flex items-center gap-5">
-          {/* avatar */}
+          {/* Avatar component */}
           <Avatar
             src={user.avatar_url}
             username={user.display_name}
-            size="w-20 h-20"
+            size="w-20 h-20" // custom width/height
           />
 
-          {/* username and date joined */}
+          {/* Username and join date */}
           <div className="">
             <h1 className="text-xl font-bold">{user.display_name}</h1>
             {user.created_at && (
@@ -57,43 +58,35 @@ export default function ProfileInfo({
           </div>
         </div>
 
-        {/* films watched, films favorited, films watchlisted */}
+        {/* User Stats Section */}
         <div className="flex">
-          {/* films watched */}
+          {/* Watched movies */}
           <div className="space-y-2 text-center">
-            {/* number */}
             <h1 className="font-bold text-4xl">{stats?.watched}</h1>
-            {/* watched */}
             <h1 className="font-thin uppercase text-sm">Watched</h1>
           </div>
 
-          {/* divider */}
+          {/* Divider */}
           <div className="divider divider-horizontal"></div>
 
-          {/* films favorited */}
+          {/* Favorited movies */}
           <div className="space-y-2 text-center">
-            <div className="space-y-2">
-              {/* number */}
-              <h1 className="font-bold text-4xl">{stats?.favorites}</h1>
-              {/* favorited */}
-              <h1 className="font-thin uppercase text-sm">Favorited</h1>
-            </div>
+            <h1 className="font-bold text-4xl">{stats?.favorites}</h1>
+            <h1 className="font-thin uppercase text-sm">Favorited</h1>
           </div>
 
-          {/* divider */}
+          {/* Divider */}
           <div className="divider divider-horizontal"></div>
 
-          {/* films watchlisted */}
+          {/* Watchlisted movies */}
           <div className="space-y-2 text-center">
-            {/* number */}
             <h1 className="font-bold text-4xl">{stats?.watchlist}</h1>
-            {/* watchlisted */}
             <h1 className="font-thin uppercase text-sm">Watchlisted</h1>
           </div>
         </div>
       </div>
 
-      {/* bio */}
+      {/* Bio Section */}
       {user.bio && (
         <div className="bg-base-200 p-2 shadow-lg font-semibold rounded border-l-8 border-green-500 text-sm">
           <h1>
@@ -103,9 +96,11 @@ export default function ProfileInfo({
         </div>
       )}
 
+      {/* Main Content: Recently watched/favorited/watchlisted movies and reviews */}
       <div className="flex justify-between">
+        {/* Left Column: Movie Lists and Reviews */}
         <div className="w-[630px] space-y-5">
-          {/* recently watched films */}
+          {/* Recently Watched Films */}
           <div>
             <Title
               title="recently watched films"
@@ -130,7 +125,7 @@ export default function ProfileInfo({
             )}
           </div>
 
-          {/* recently favorited films */}
+          {/* Recently Favorited Films */}
           <div>
             <Title
               title="recently favorited films"
@@ -155,7 +150,7 @@ export default function ProfileInfo({
             )}
           </div>
 
-          {/* recently watchlisted films */}
+          {/* Recently Watchlisted Films */}
           <div>
             <Title
               title="recently watchlisted films"
@@ -180,13 +175,12 @@ export default function ProfileInfo({
             )}
           </div>
 
-          {/* latest reviews */}
+          {/* Recently Reviewed Films */}
           <div className="w-full">
             <Title
               title="recently reviewed films"
               link={`/user/${user.display_name}/reviews`}
             />
-
             <div className="mt-2">
               {reviews && reviews.length > 0 ? (
                 <div className="space-y-2">
@@ -203,24 +197,20 @@ export default function ProfileInfo({
           </div>
         </div>
 
+        {/* Right Column: Films Reviewed Count and Advertisement */}
         <div className="w-[230px] space-y-5">
-          {/* films reviewed */}
+          {/* Films Reviewed Stats */}
           <div className="w-[230px] h-[130px] flex justify-center items-center flex-col shadow-lg bg-base-200 hover:bg-base-300 rounded transition-colors duration-300">
-            {/* number */}
             <h1 className="font-bold text-5xl">{stats?.reviews}</h1>
-            {/* favorited */}
             <h1 className="font-thin uppercase text-sm">Films</h1>
             <h1 className="font-thin uppercase text-sm">Reviewed</h1>
           </div>
 
+          {/* Advertisement Component */}
           <SquareSmallAd />
 
+          {/* Placeholder skeletons for potential loading state (commented out) */}
           {/* <div>
-            <div className="skeleton h-3 rounded"></div>
-            <LoadingList quantity={5} width="w-[70px]" height="h-[105px]" />
-          </div>
-
-          <div>
             <div className="skeleton h-3 rounded"></div>
             <LoadingList quantity={5} width="w-[70px]" height="h-[105px]" />
           </div> */}
