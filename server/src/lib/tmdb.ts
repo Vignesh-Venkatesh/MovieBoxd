@@ -282,6 +282,12 @@ export async function insertMovieFromTMDB(tmdb_id: string) {
 
     // if there’s a database error, return an error response
     if (error) {
+      console.error(
+        "🛑 Supabase insert error:",
+        error.message,
+        error.details,
+        error.hint,
+      );
       return {
         msg: "Failed to insert movie into database",
         status: 500,
