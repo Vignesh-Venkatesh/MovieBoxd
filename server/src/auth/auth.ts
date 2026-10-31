@@ -31,15 +31,18 @@ auth.post("/signup", async (c) => {
     .eq("display_name", display_name)
     .maybeSingle();
 
-  if (existingProfile) {
-    return c.json({ msg: "Display name already taken", status: 400 }, 400);
-  }
-
+  
   if (checkError) {
+    console.error("Failed to check display name:", checkError);
+  
     return c.json(
-      { msg: "Error checking display name", error: checkError, status: 500 },
+      { msg: "Unable to check display name", status: 500 },
       500
     );
+  }
+
+  if (existingProfile) {
+    return c.json({ msg: "Display name already taken", status: 400 }, 400);
   }
 
   // creating user in Supabase Auth
