@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { supabase } from "../db/db";
+import { supabase, createAuthClient } from "../db/db";
 
 const auth = new Hono();
 
@@ -82,9 +82,11 @@ auth.post("/signup", async (c) => {
 // ---------------------------
 auth.post("/login", async (c) => {
   const { email, password } = await c.req.json();
+  
 
   // supabase handles email and password login
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const authClient = createAuthClient();
+  const { data, error } = await authClient.auth.signInWithPassword({
     email,
     password,
   });
