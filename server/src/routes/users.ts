@@ -42,7 +42,9 @@ usersRoutes.post("/:username/movies/:movieId/review", async (c) => {
   try {
     // requiring authentication and get the logged-in user
     const authUser = await requireAuth(c);
-    if (!authUser) return; // middleware already sent response if not authenticated
+    if (authUser instanceof Response) {
+      return authUser;
+    } // middleware already sent response if not authenticated
 
     // getting username from URL parameter
     const usernameParam = c.req.param("username");
@@ -84,7 +86,9 @@ usersRoutes.delete("/:username/movies/:movieId/review", async (c) => {
   try {
     // requiring authentication and get the logged-in user
     const authUser = await requireAuth(c);
-    if (!authUser) return; // middleware already sent response if not authenticated
+    if (authUser instanceof Response) {
+      return authUser;
+    } // middleware already sent response if not authenticated
 
     // getting username from URL parameter
     const usernameParam = c.req.param("username");
@@ -114,9 +118,9 @@ usersRoutes.delete("/:username/movies/:movieId/review", async (c) => {
 usersRoutes.post("/:username/movies/:movieId/:action", async (c) => {
   // authenticating the user
   const authUser = await requireAuth(c);
-  if (!authUser) {
-    return;
-  } // if not authenticated, middleware already sent response
+  if (authUser instanceof Response) {
+      return authUser;
+  } // middleware already sent response if not authenticated
 
   // extracting the username from URL params
   const usernameParam = c.req.param("username");
@@ -146,9 +150,9 @@ usersRoutes.delete("/:username/movies/:movieId/:action", async (c) => {
   try {
     // athenticating the user
     const authUser = await requireAuth(c);
-    if (!authUser) {
-      return;
-    } // if not authenticated, middleware already sent response
+    if (authUser instanceof Response) {
+      return authUser;
+    } // middleware already sent response if not authenticated
 
     // extracting the username from URL params
     const usernameParam = c.req.param("username");
