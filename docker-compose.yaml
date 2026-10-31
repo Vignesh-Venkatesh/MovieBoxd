@@ -9,6 +9,7 @@ services:
       TMDB_API_KEY: ${TMDB_API_KEY} # TMDB_API_KEY
       SUPABASE_URL: ${SUPABASE_URL} # Supabase URL
       SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY} # Supabase Service Role Key
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
       ENVIRONMENT: ${ENVIRONMENT} # dev or prod environment
     expose:
       - "3000" # exposing backend port
@@ -23,4 +24,4 @@ services:
     depends_on:
       - backend
     expose:
-      - "80" # mapping container port 80
+      - "80" # exposing container port 80
