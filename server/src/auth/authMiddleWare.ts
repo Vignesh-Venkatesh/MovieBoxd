@@ -39,9 +39,23 @@ export async function requireAuth(c: any) {
     .eq("id", authUser.id)
     .maybeSingle();
 
-  if (profileError || !profile) {
-    return c.json({ msg: "Profile not found", status: 404 }, 404);
+  
+  if (profileError) {
+    console.error("Failed to fetch user profile:", profileError);
+  
+    return c.json(
+      { msg: "Unable to load user profile", status: 500 },
+      500
+    );
   }
+  
+  if (!profile) {
+    return c.json(
+      { msg: "Profile not found", status: 404 },
+      404
+    );
+  }
+
 
   // merging Supabase Auth info with custom profile info
   const fullUser = {
